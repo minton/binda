@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace BindaTests.NeededObjects
 {
@@ -9,10 +8,5 @@ namespace BindaTests.NeededObjects
         {
             InitializeComponent();
         }
-
-        public string Title { get { return txtTitle.Text; } set { txtTitle.Text = value; } }
-        public string Author { get { return txtAuthor.Text; } set { txtAuthor.Text = value; } }
-        public string Body { get { return txtBody.Text; } set { txtBody.Text = value; } }
-        public DateTime Date { get { return dtpDate.Value; } set { dtpDate.Value = value; } }
     }
 }

@@ -29,13 +29,15 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.txtTitle = new System.Windows.Forms.TextBox();
+            this.Title = new System.Windows.Forms.TextBox();
             this.lblAuthor = new System.Windows.Forms.Label();
-            this.txtAuthor = new System.Windows.Forms.TextBox();
+            this.Author = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtBody = new System.Windows.Forms.TextBox();
-            this.dtpDate = new System.Windows.Forms.DateTimePicker();
+            this.Body = new System.Windows.Forms.TextBox();
+            this.Date = new System.Windows.Forms.DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
+            this.PostLocation = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -47,12 +49,12 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Title";
             // 
-            // txtTitle
+            // Title
             // 
-            this.txtTitle.Location = new System.Drawing.Point(12, 26);
-            this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(275, 20);
-            this.txtTitle.TabIndex = 0;
+            this.Title.Location = new System.Drawing.Point(12, 26);
+            this.Title.Name = "Title";
+            this.Title.Size = new System.Drawing.Size(275, 20);
+            this.Title.TabIndex = 0;
             // 
             // lblAuthor
             // 
@@ -63,12 +65,12 @@
             this.lblAuthor.TabIndex = 0;
             this.lblAuthor.Text = "Author:";
             // 
-            // txtAuthor
+            // Author
             // 
-            this.txtAuthor.Location = new System.Drawing.Point(15, 65);
-            this.txtAuthor.Name = "txtAuthor";
-            this.txtAuthor.Size = new System.Drawing.Size(149, 20);
-            this.txtAuthor.TabIndex = 1;
+            this.Author.Location = new System.Drawing.Point(15, 65);
+            this.Author.Name = "Author";
+            this.Author.Size = new System.Drawing.Size(149, 20);
+            this.Author.TabIndex = 1;
             // 
             // label3
             // 
@@ -84,38 +86,56 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 129);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 13);
+            this.label2.Size = new System.Drawing.Size(34, 13);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Author:";
+            this.label2.Text = "Body:";
             // 
-            // txtBody
+            // Body
             // 
-            this.txtBody.Location = new System.Drawing.Point(15, 145);
-            this.txtBody.Multiline = true;
-            this.txtBody.Name = "txtBody";
-            this.txtBody.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBody.Size = new System.Drawing.Size(633, 299);
-            this.txtBody.TabIndex = 3;
+            this.Body.Location = new System.Drawing.Point(15, 145);
+            this.Body.Multiline = true;
+            this.Body.Name = "Body";
+            this.Body.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Body.Size = new System.Drawing.Size(633, 299);
+            this.Body.TabIndex = 3;
             // 
-            // dtpDate
+            // Date
             // 
-            this.dtpDate.CustomFormat = "M/d/yy h:mm tt";
-            this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDate.Location = new System.Drawing.Point(15, 105);
-            this.dtpDate.Name = "dtpDate";
-            this.dtpDate.Size = new System.Drawing.Size(200, 20);
-            this.dtpDate.TabIndex = 4;
+            this.Date.CustomFormat = "M/d/yy h:mm tt";
+            this.Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.Date.Location = new System.Drawing.Point(15, 105);
+            this.Date.Name = "Date";
+            this.Date.Size = new System.Drawing.Size(200, 20);
+            this.Date.TabIndex = 4;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(167, 49);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(51, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Location:";
+            // 
+            // PostLocation
+            // 
+            this.PostLocation.Location = new System.Drawing.Point(170, 65);
+            this.PostLocation.Name = "PostLocation";
+            this.PostLocation.Size = new System.Drawing.Size(149, 20);
+            this.PostLocation.TabIndex = 1;
             // 
             // MySampleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(660, 456);
-            this.Controls.Add(this.dtpDate);
-            this.Controls.Add(this.txtBody);
-            this.Controls.Add(this.txtAuthor);
-            this.Controls.Add(this.txtTitle);
+            this.Controls.Add(this.Date);
+            this.Controls.Add(this.Body);
+            this.Controls.Add(this.PostLocation);
+            this.Controls.Add(this.Author);
+            this.Controls.Add(this.Title);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lblAuthor);
             this.Controls.Add(this.label1);
@@ -129,12 +149,14 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtTitle;
+        internal System.Windows.Forms.TextBox Title;
         private System.Windows.Forms.Label lblAuthor;
-        private System.Windows.Forms.TextBox txtAuthor;
+        internal System.Windows.Forms.TextBox Author;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtBody;
-        private System.Windows.Forms.DateTimePicker dtpDate;
+        internal System.Windows.Forms.TextBox Body;
+        internal System.Windows.Forms.DateTimePicker Date;
+        private System.Windows.Forms.Label label4;
+        internal System.Windows.Forms.TextBox PostLocation;
     }
 }

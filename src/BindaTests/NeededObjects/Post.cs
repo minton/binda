@@ -5,6 +5,7 @@ namespace BindaTests.NeededObjects
     {
         public string Title { get; set; }
         public string Author { get; set; }
+        public string Location { get; set; }
         public string Body { get; set; }
         public DateTime Date { get; set; }
     }
