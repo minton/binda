@@ -10,9 +10,10 @@ namespace Binda
             var destinationProperties = destination.GetType().GetProperties();
             foreach (var destinationProperty in destinationProperties)
             {
-                //Find matching property in source
                 var sourceProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == destinationProperty.Name.ToUpper());
+
                 if (sourceProperty == null) continue;
+                if (!destinationProperty.PropertyType.IsAssignableFrom(sourceProperty.PropertyType)) continue;
 
                 var value = sourceProperty.GetValue(source, null);
                 destinationProperty.SetValue(destination, value, null);
