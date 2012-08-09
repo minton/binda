@@ -8,5 +8,6 @@ namespace BindaTests.NeededObjects
         public string Location { get; set; }
         public string Body { get; set; }
         public DateTime Date { get; set; }
+        public Decimal? Radiation { get; set; }
     }
 }

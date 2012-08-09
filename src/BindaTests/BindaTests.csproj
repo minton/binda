@@ -66,6 +66,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindaSpecs.cs" />
+    <Compile Include="NeededObjects\FluxCapacitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NeededObjects\FluxCapacitor.Designer.cs">
+      <DependentUpon>FluxCapacitor.cs</DependentUpon>
+    </Compile>
     <Compile Include="NeededObjects\MySampleForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +88,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="NeededObjects\FluxCapacitor.resx">
+      <DependentUpon>FluxCapacitor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NeededObjects\MySampleForm.resx">
       <DependentUpon>MySampleForm.cs</DependentUpon>
     </EmbeddedResource>

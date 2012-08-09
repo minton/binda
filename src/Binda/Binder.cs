@@ -8,7 +8,7 @@ namespace Binda
 {
     public class Binder
     {
-        public Dictionary<Type, BindaRegistration> registrations;
+        readonly Dictionary<Type, BindaRegistration> registrations;
 
         public Binder()
         {
@@ -25,13 +25,19 @@ namespace Binda
             registrations.Add(controlType, new BindaRegistration(accessProperty, propertyType));
         }
 
-        public void Bind(object source, Form destination)
+        public void Bind(object source, Form destination, List<BindaAlias> aliases = null)
         {
             var sourceProperties = source.GetType().GetProperties();
             var formControls = Reflector.GetAllControlsRecursive(destination).ToList();
             foreach (var control in formControls)
             {
-                var sourceProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == control.Name.ToUpper());
+                var controlPropertyName = control.Name;
+                var alias = aliases.FirstOrDefault(x => x.DestinationAlias.ToUpper() == control.Name.ToUpper());
+
+                if (alias != null)
+                    controlPropertyName = alias.SourceProperty;
+
+                var sourceProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == controlPropertyName.ToUpper());
                 if (sourceProperty == null) continue;
 
                 BindaRegistration registration;
@@ -41,7 +47,6 @@ namespace Binda
                 var value = sourceProperty.GetValue(source, null);
 
                 Reflector.SetPropertyValue(control, registration.AccessProperty, value);
-
             }
         }
     }

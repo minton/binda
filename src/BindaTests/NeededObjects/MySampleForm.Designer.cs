@@ -38,6 +38,7 @@
             this.Date = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.PostLocation = new System.Windows.Forms.TextBox();
+            this.Radiation = new BindaTests.NeededObjects.FluxCapacitor();
             this.SuspendLayout();
             // 
             // label1
@@ -124,11 +125,20 @@
             this.PostLocation.Size = new System.Drawing.Size(149, 20);
             this.PostLocation.TabIndex = 1;
             // 
+            // Radiation
+            // 
+            this.Radiation.Location = new System.Drawing.Point(367, 13);
+            this.Radiation.Name = "Radiation";
+            this.Radiation.Radiation = null;
+            this.Radiation.Size = new System.Drawing.Size(281, 112);
+            this.Radiation.TabIndex = 5;
+            // 
             // MySampleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(660, 456);
+            this.Controls.Add(this.Radiation);
             this.Controls.Add(this.Date);
             this.Controls.Add(this.Body);
             this.Controls.Add(this.PostLocation);
@@ -158,5 +168,6 @@
         internal System.Windows.Forms.DateTimePicker Date;
         private System.Windows.Forms.Label label4;
         internal System.Windows.Forms.TextBox PostLocation;
+        internal FluxCapacitor Radiation;
     }
 }
