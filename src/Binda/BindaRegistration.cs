@@ -2,15 +2,15 @@ using System;
 
 namespace Binda
 {
-    public class BindaRegistration
+    internal class BindaRegistration
     {
-        public BindaRegistration(string accessProperty, Type propertyType)
+        public BindaRegistration(string property, Type type)
         {
-            AccessProperty = accessProperty;
-            PropertyType = propertyType;
+            AccessProperty = property;
+            PropertyType = type;
         }
 
-        public string AccessProperty { get; set; }
-        public Type PropertyType { get; set; }
+        public string AccessProperty { get; private set; }
+        public Type PropertyType { get; private set; }
     }
 }

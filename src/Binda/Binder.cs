@@ -20,12 +20,33 @@ namespace Binda
                                     {typeof(DateTimePicker), new BindaRegistration("Value", typeof(DateTime))}
                                 };
         }
-        public void AddRegistration(Type controlType, string accessProperty, Type propertyType)
+        /// <summary>
+        /// Add a new BindaRegistration to the Binder.
+        /// </summary>
+        /// <param name="control">The type of the custom control.</param>
+        /// <param name="property">The property used to get/set the value on the control.</param>
+        /// <param name="type">The data type of the property.</param>
+        public void AddRegistration(Type control, string property, Type type)
         {
-            registrations.Add(controlType, new BindaRegistration(accessProperty, propertyType));
+            registrations.Add(control, new BindaRegistration(property, type));
         }
 
-        public void Bind(object source, Form destination, List<BindaAlias> aliases = null)
+        /// <summary>
+        /// Binds an object to a Form via property names.
+        /// </summary>
+        /// <param name="source">The object to be bound to the form</param>
+        /// <param name="destination">A Windows Form</param>
+        public void Bind(object source, Form destination)
+        {
+            Bind(source, destination, Enumerable.Empty<BindaAlias>().ToList());
+        }
+        /// <summary>
+        /// Binds an object to a Form via property names including aliases.
+        /// </summary>
+        /// <param name="source">The object to be bound to the form.</param>
+        /// <param name="destination">A Windows Form.</param>
+        /// <param name="aliases">A list of BindaAlias.</param>
+        public void Bind(object source, Form destination, List<BindaAlias> aliases)
         {
             var sourceProperties = source.GetType().GetProperties();
             var formControls = Reflector.GetAllControlsRecursive(destination).ToList();
@@ -35,7 +56,7 @@ namespace Binda
                 var alias = aliases.FirstOrDefault(x => x.DestinationAlias.ToUpper() == control.Name.ToUpper());
 
                 if (alias != null)
-                    controlPropertyName = alias.SourceProperty;
+                    controlPropertyName = alias.Property;
 
                 var sourceProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == controlPropertyName.ToUpper());
                 if (sourceProperty == null) continue;
