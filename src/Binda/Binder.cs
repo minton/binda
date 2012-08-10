@@ -8,11 +8,11 @@ namespace Binda
 {
     public class Binder
     {
-        readonly Dictionary<Type, BindaRegistration> registrations;
+        readonly Dictionary<Type, BindaRegistration> _registrations;
 
         public Binder()
         {
-            registrations = new Dictionary<Type, BindaRegistration>
+            _registrations = new Dictionary<Type, BindaRegistration>
                                 {
                                     {typeof (TextBox), new BindaRegistration("Text", typeof (string))},
                                     {typeof(CheckBox), new BindaRegistration("Checked", typeof(bool))},
@@ -28,13 +28,13 @@ namespace Binda
         /// <param name="type">The data type of the property.</param>
         public void AddRegistration(Type control, string property, Type type)
         {
-            registrations.Add(control, new BindaRegistration(property, type));
+            _registrations.Add(control, new BindaRegistration(property, type));
         }
 
         /// <summary>
         /// Binds an object to a Form via property names.
         /// </summary>
-        /// <param name="source">The object to be bound to the form</param>
+        /// <param name="source">Any POCO.</param>
         /// <param name="destination">A Windows Form</param>
         public void Bind(object source, Form destination)
         {
@@ -43,14 +43,16 @@ namespace Binda
         /// <summary>
         /// Binds an object to a Form via property names including aliases.
         /// </summary>
-        /// <param name="source">The object to be bound to the form.</param>
+        /// <param name="source">Any POCO.</param>
         /// <param name="destination">A Windows Form.</param>
         /// <param name="aliases">A list of BindaAlias.</param>
         public void Bind(object source, Form destination, List<BindaAlias> aliases)
         {
+            if (source == null) throw new ArgumentNullException("source");
+            if (destination == null) throw new ArgumentNullException("destination");
             var sourceProperties = source.GetType().GetProperties();
-            var formControls = Reflector.GetAllControlsRecursive(destination).ToList();
-            foreach (var control in formControls)
+            var controls = Reflector.GetAllControlsRecursive(destination).ToList();
+            foreach (var control in controls)
             {
                 var controlPropertyName = control.Name;
                 var alias = aliases.FirstOrDefault(x => x.DestinationAlias.ToUpper() == control.Name.ToUpper());
@@ -62,12 +64,51 @@ namespace Binda
                 if (sourceProperty == null) continue;
 
                 BindaRegistration registration;
-                if (!registrations.TryGetValue(control.GetType(), out registration)) continue;
-                
+                if (!_registrations.TryGetValue(control.GetType(), out registration)) continue;
                 if (!registration.PropertyType.IsAssignableFrom(sourceProperty.PropertyType)) continue;
+                
                 var value = sourceProperty.GetValue(source, null);
 
                 Reflector.SetPropertyValue(control, registration.AccessProperty, value);
+            }
+        }
+        /// <summary>
+        /// Binds a Form to an object via property names.
+        /// </summary>
+        /// <param name="source">A Windows Form.</param>
+        /// <param name="destination">Any POCO.</param>
+        public void Bind(Form source, object destination)
+        {
+            Bind(source, destination, Enumerable.Empty<BindaAlias>().ToList());
+        }
+        /// <summary>
+        /// Binds a Form to an object via property names including aliases.
+        /// </summary>
+        /// <param name="source">A Windows Form.</param>
+        /// <param name="destination">Any POCO.</param>
+        /// <param name="aliases">A list of BindaAlias.</param>
+        public void Bind(Form source, object destination, List<BindaAlias> aliases)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            if (destination == null) throw new ArgumentNullException("destination");
+            var properties = destination.GetType().GetProperties();
+            var controls = Reflector.GetAllControlsRecursive(source).ToList();
+            foreach (var property in properties)
+            {
+                var propertyName = property.Name;
+                var alias = aliases.FirstOrDefault(x => x.Property.ToUpper() == property.Name.ToUpper());
+                if (alias != null)
+                    propertyName = alias.DestinationAlias;
+
+                var control = controls.FirstOrDefault(x => x.Name.ToUpper() == propertyName.ToUpper());
+                if (control == null) continue;
+
+                BindaRegistration registration;
+                if (!_registrations.TryGetValue(control.GetType(), out registration)) continue;
+                if (!registration.PropertyType.IsAssignableFrom(property.PropertyType)) continue;
+
+                var value = Reflector.GetPropertyValue(control, registration.AccessProperty);
+                property.SetValue(destination, value, null);
             }
         }
     }

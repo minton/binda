@@ -6,6 +6,12 @@ namespace Binda.Utilities
 {
     public class Reflector
     {
+        public static object GetPropertyValue(object obj, string name)
+        {
+            var properties = obj.GetType().GetProperties();
+            var propertyInfo = properties.FirstOrDefault(x => x.Name.ToUpperInvariant() == name.ToUpperInvariant());
+            return propertyInfo == null ? null : propertyInfo.GetValue(obj, null);
+        }
         public static void SetPropertyValue(object obj, string propertyName, object value)
         {
             var properties = obj.GetType().GetProperties();

@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindaSpecs.cs" />
+    <Compile Include="NeededObjectsFactory.cs" />
     <Compile Include="NeededObjects\FluxCapacitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -80,12 +81,7 @@
     </Compile>
     <Compile Include="NeededObjects\Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Binda\Binda.csproj">
-      <Project>{7B942E8C-8D34-4D84-BE52-1B7F2250C9D0}</Project>
-      <Name>Binda</Name>
-    </ProjectReference>
+    <Compile Include="TestVariables.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NeededObjects\FluxCapacitor.resx">
@@ -97,6 +93,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Binda\Binda.csproj">
+      <Project>{7B942E8C-8D34-4D84-BE52-1B7F2250C9D0}</Project>
+      <Name>Binda</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

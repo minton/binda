@@ -1,121 +1,237 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using BindaTests.NeededObjects;
 using Machine.Specifications;
 using Binda;
+using Test;
 
-namespace Test
+namespace BindaTests
 {
     [Subject(typeof(Binder))]
-    public class When_binding_windows_form
+    public class When_binding_an_object_to_a_form
     {
         Establish context = () =>
                                 {
                                     _binder = new Binder();
                                     _form = new MySampleForm();
-                                    _post = new Post
-                                                {
-                                                    Title = _title,
-                                                    Author = _author,
-                                                    Date = SkeetEpoch,
-                                                    Body = _body
-                                                };
+                                    _post = NeededObjectsFactory.CreatePost();
                                 };
 
         Because of = () => _binder.Bind(_post, _form);
 
-        It should_take_matching_properties_from_the_post_and_set_them_on_the_form = () =>
+        It should_take_matching_properties_from_the_object_and_set_them_on_the_form = () =>
                                                                                         {
-                                                                                            _form.Title.Text.ShouldEqual(_title);
-                                                                                            _form.Author.Text.ShouldEqual(_author);
-                                                                                            _form.Date.Value.ShouldEqual(SkeetEpoch);
-                                                                                            _form.Body.Text.ShouldEqual(_body);
+                                                                                            _form.Title.Text.ShouldEqual(TestVariables.Title);
+                                                                                            _form.Author.Text.ShouldEqual(TestVariables.Author);
+                                                                                            _form.Date.Value.ShouldEqual(TestVariables.Posted);
+                                                                                            _form.Body.Text.ShouldEqual(TestVariables.Body);
                                                                                         };
-
         static Binder _binder;
         static MySampleForm _form;
         static Post _post;
-        static DateTime SkeetEpoch = DateTime.Parse("6/19/1965");
-        static readonly string _body = "Invizible evrybody bere carz bukket flowerz. Nozzing sheeze ghoast funnae cheezeburger scratchin funnae samez apwn. Evrybody ghoast not pour nozbody compewter dum bere. Hunnae how hoi nozzing not luv. Not nozzing samez hoi notise graet bere wtf. Hunnae nom winz evrybody. Partay gravy flowerz evrybody compewters noze. Samez apwn I partay luv sink cheezeburger. Wut nom noze do hoi flowerz partay. Yu bukket saiz teh. Scratchin haz evrybody not evrybody compewters. Nuthing ghoast compewters u thx ya.";
-        static readonly string _author = "Dr. Anderson Silva";
-        static readonly string _title = "Why Medical Unit Tests Fail";
     }
     [Subject(typeof(Binder))]
-    public class When_binding_a_windows_form_with_custom_registrations
+    public class When_binding_an_oject_to_a_form_with_custom_registrations
     {
         Establish context = () =>
                                 {
                                     _binder = new Binder();
-                                    _binder.AddRegistration(typeof (FluxCapacitor), "Radiation", typeof (decimal?));
+                                    _binder.AddRegistration(typeof(FluxCapacitor), "Radiation", typeof(decimal?));
                                     _form = new MySampleForm();
-                                    _post = new Post
-                                                {
-                                                    Title = _title,
-                                                    Author = _author,
-                                                    Date = SkeetEpoch,
-                                                    Body = _body,
-                                                    Radiation = _radiation
-                                                };
+                                    _post = NeededObjectsFactory.CreatePost();
+                                    _post.Radiation = TestVariables.Radiation;
                                 };
 
         Because of = () => _binder.Bind(_post, _form);
 
-        It should_take_matching_properties_from_the_post_and_set_them_on_the_form = () =>
+        It should_take_matching_properties_from_the_object_and_set_them_on_the_form = () =>
                                                                                         {
-                                                                                            _form.Title.Text.ShouldEqual(_title);
-                                                                                            _form.Author.Text.ShouldEqual(_author);
-                                                                                            _form.Date.Value.ShouldEqual(SkeetEpoch);
-                                                                                            _form.Body.Text.ShouldEqual(_body);
-                                                                                            _form.Radiation.Radiation.ShouldEqual(_radiation);
+                                                                                            _form.Title.Text.ShouldEqual(TestVariables.Title);
+                                                                                            _form.Author.Text.ShouldEqual(TestVariables.Author);
+                                                                                            _form.Date.Value.ShouldEqual(TestVariables.Posted);
+                                                                                            _form.Body.Text.ShouldEqual(TestVariables.Body);
+                                                                                            _form.Radiation.Radiation.ShouldEqual(TestVariables.Radiation);
                                                                                         };
-
         static Binder _binder;
         static MySampleForm _form;
         static Post _post;
-        static DateTime SkeetEpoch = DateTime.Parse("6/19/1965");
-        static readonly string _body = "Invizible evrybody bere carz bukket flowerz. Nozzing sheeze ghoast funnae cheezeburger scratchin funnae samez apwn. Evrybody ghoast not pour nozbody compewter dum bere. Hunnae how hoi nozzing not luv. Not nozzing samez hoi notise graet bere wtf. Hunnae nom winz evrybody. Partay gravy flowerz evrybody compewters noze. Samez apwn I partay luv sink cheezeburger. Wut nom noze do hoi flowerz partay. Yu bukket saiz teh. Scratchin haz evrybody not evrybody compewters. Nuthing ghoast compewters u thx ya.";
-        static readonly string _author = "Dr. Anderson Silva";
-        static readonly string _title = "Why Medical Unit Tests Fail";
-        static readonly decimal? _radiation = 42.314m;
     }
     [Subject(typeof(Binder))]
-    public class When_binding_a_windows_form_with_aliases
+    public class When_binding_an_object_to_a_form_with_aliases
     {
         Establish context = () =>
         {
             _binder = new Binder();
             _form = new MySampleForm();
-            Aliases.Add(new BindaAlias("Location", "PostLocation"));
-            _post = new Post
-            {
-                Title = Title,
-                Author = Author,
-                Date = SkeetEpoch,
-                Body = Body,
-                Location = Location
-            };
+            _aliases = new List<BindaAlias> { new BindaAlias("Location", "PostLocation") };
+            _post = NeededObjectsFactory.CreatePost();
         };
 
-        Because of = () => _binder.Bind(_post, _form, Aliases);
+        Because of = () => _binder.Bind(_post, _form, _aliases);
+
+        It should_take_matching_properties_from_the_object_and_set_them_on_the_form = () =>
+                                                                                        {
+                                                                                            _form.Title.Text.ShouldEqual(TestVariables.Title);
+                                                                                            _form.Author.Text.ShouldEqual(TestVariables.Author);
+                                                                                            _form.Date.Value.ShouldEqual(TestVariables.Posted);
+                                                                                            _form.Body.Text.ShouldEqual(TestVariables.Body);
+                                                                                            _form.PostLocation.Text.ShouldEqual(TestVariables.Location);
+                                                                                        };
+        static Binder _binder;
+        static MySampleForm _form;
+        static Post _post;
+        static List<BindaAlias> _aliases;
+    }
+    [Subject(typeof(Binder))]
+    public class When_binding_a_form_to_an_object
+    {
+        Establish context = () =>
+        {
+            _binder = new Binder();
+            _form = NeededObjectsFactory.CreateForm();
+            _post = new Post();
+        };
+
+        Because of = () => _binder.Bind(_form, _post);
+
+        It should_take_matching_properties_from_the_form_and_set_them_on_the_object = () =>
+                                                                                          {
+                                                                                              _post.Title.ShouldEqual(TestVariables.Title);
+                                                                                              _post.Author.ShouldEqual(TestVariables.Author);
+                                                                                              _post.Date.ShouldEqual(TestVariables.Posted);
+                                                                                              _post.Body.ShouldEqual(TestVariables.Body);
+                                                                                          };
+        static Binder _binder;
+        static MySampleForm _form;
+        static Post _post;
+    }
+    [Subject(typeof(Binder))]
+    public class When_binding_a_form_to_an_object_with_custom_registrations
+    {
+        Establish context = () =>
+        {
+            _binder = new Binder();
+            _binder.AddRegistration(typeof(FluxCapacitor), "Radiation", typeof(decimal?));
+            _form = NeededObjectsFactory.CreateForm();
+            _form.Radiation.Radiation = TestVariables.Radiation;
+            _post = new Post();
+        };
+
+        Because of = () => _binder.Bind(_form, _post);
 
         It should_take_matching_properties_from_the_post_and_set_them_on_the_form = () =>
                                                                                         {
-                                                                                            _form.Title.Text.ShouldEqual(Title);
-                                                                                            _form.Author.Text.ShouldEqual(Author);
-                                                                                            _form.Date.Value.ShouldEqual(SkeetEpoch);
-                                                                                            _form.Body.Text.ShouldEqual(Body);
-                                                                                            _form.PostLocation.Text.ShouldEqual(Location);
+                                                                                            _post.Title.ShouldEqual(TestVariables.Title);
+                                                                                            _post.Author.ShouldEqual(TestVariables.Author);
+                                                                                            _post.Date.ShouldEqual(TestVariables.Posted);
+                                                                                            _post.Body.ShouldEqual(TestVariables.Body);
+                                                                                            _post.Radiation.ShouldEqual(TestVariables.Radiation);
                                                                                         };
+        static Binder _binder;
+        static MySampleForm _form;
+        static Post _post;
+    }
+    [Subject(typeof(Binder))]
+    public class When_binding_a_form_to_an_object_with_aliases
+    {
+        Establish context = () =>
+                                {
+                                    _binder = new Binder();
+                                    _aliases = new List<BindaAlias> { new BindaAlias("Location", "PostLocation") };
+                                    _form = NeededObjectsFactory.CreateForm();
+                                    _form.PostLocation.Text = TestVariables.Location;
+                                    _post = new Post();
+                                };
+
+        Because of = () => _binder.Bind(_form, _post, _aliases);
+
+        It should_take_matching_properties_from_the_form_and_set_them_on_the_object = () =>
+                                                                                          {
+                                                                                              _post.Title.ShouldEqual(TestVariables.Title);
+                                                                                              _post.Author.ShouldEqual(TestVariables.Author);
+                                                                                              _post.Date.ShouldEqual(TestVariables.Posted);
+                                                                                              _post.Body.ShouldEqual(TestVariables.Body);
+                                                                                              _post.Location.ShouldEqual(TestVariables.Location);
+                                                                                          };
+        static Binder _binder;
+        static MySampleForm _form;
+        static Post _post;
+        static List<BindaAlias> _aliases;
+    }
+    [Subject(typeof(Binder))]
+    public class When_binding_an_object_to_a_form_where_the_object_is_null
+    {
+        Establish context = () =>
+        {
+            _binder = new Binder();
+            _form = new MySampleForm();
+            _post = null;
+        };
+
+        Because of = () => _exception = Catch.Exception(() => _binder.Bind(_post, _form));
+
+        It should_fail = () => _exception.ShouldBeOfType<ArgumentNullException>();
 
         static Binder _binder;
         static MySampleForm _form;
         static Post _post;
-        static readonly DateTime SkeetEpoch = DateTime.Parse("6/19/1965");
-        const string Body = "Invizible evrybody bere carz bukket flowerz. Nozzing sheeze ghoast funnae cheezeburger scratchin funnae samez apwn. Evrybody ghoast not pour nozbody compewter dum bere. Hunnae how hoi nozzing not luv. Not nozzing samez hoi notise graet bere wtf. Hunnae nom winz evrybody. Partay gravy flowerz evrybody compewters noze. Samez apwn I partay luv sink cheezeburger. Wut nom noze do hoi flowerz partay. Yu bukket saiz teh. Scratchin haz evrybody not evrybody compewters. Nuthing ghoast compewters u thx ya.";
-        const string Author = "Dr. Anderson Silva";
-        const string Title = "Why Medical Unit Tests Fail";
-        const string Location = "Tampa, FL";
-        static readonly List<BindaAlias> Aliases = new List<BindaAlias>();
+        static Exception _exception;
+    }
+    [Subject(typeof(Binder))]
+    public class When_binding_an_object_to_a_form_where_the_form_is_null
+    {
+        Establish context = () =>
+        {
+            _binder = new Binder();
+            _form = null;
+            _post = NeededObjectsFactory.CreatePost();
+        };
+
+        Because of = () => _exception = Catch.Exception(() => _binder.Bind(_post, _form));
+
+        It should_fail = () => _exception.ShouldBeOfType<ArgumentNullException>();
+
+        static Binder _binder;
+        static MySampleForm _form;
+        static Post _post;
+        static Exception _exception;
+    }
+    [Subject(typeof(Binder))]
+    public class When_binding_a_form_to_an_object_where_the_object_is_null
+    {
+        Establish context = () =>
+        {
+            _binder = new Binder();
+            _form = NeededObjectsFactory.CreateForm();
+            _post = null;
+        };
+
+        Because of = () => _exception = Catch.Exception(() => _binder.Bind(_form, _post));
+
+        It should_fail = () => _exception.ShouldBeOfType<ArgumentNullException>();
+
+        static Binder _binder;
+        static MySampleForm _form;
+        static Post _post;
+        static Exception _exception;
+    }
+    [Subject(typeof(Binder))]
+    public class When_binding_a_form_to_an_object_where_the_form_is_null
+    {
+        Establish context = () =>
+        {
+            _binder = new Binder();
+            _form = null;
+            _post = NeededObjectsFactory.CreatePost();
+        };
+
+        Because of = () => _exception = Catch.Exception(() => _binder.Bind(_form, _post));
+
+        It should_fail = () => _exception.ShouldBeOfType<ArgumentNullException>();
+
+        static Binder _binder;
+        static MySampleForm _form;
+        static Post _post;
+        static Exception _exception;
     }
 }
