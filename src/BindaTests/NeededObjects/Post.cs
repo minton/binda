@@ -18,5 +18,10 @@ namespace BindaTests.NeededObjects
     public class PublishState
     {
         public string State { get; set; }
+
+        public override string ToString()
+        {
+            return State;
+        }
     }
 }

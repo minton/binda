@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Binda.Utilities;
+using Inflector;
 
 namespace Binda
 {
@@ -18,7 +20,6 @@ namespace Binda
                                     {typeof(CheckBox), new BindaRegistration("Checked", typeof(bool))},
                                     {typeof(RadioButton), new BindaRegistration("Checked", typeof(bool))},
                                     {typeof(DateTimePicker), new BindaRegistration("Value", typeof(DateTime))},
-                                    {typeof(ComboBox), new BindaRegistration("SelectedItem", typeof(object))}
                                 };
         }
         /// <summary>
@@ -64,19 +65,20 @@ namespace Binda
                 var sourceProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == controlPropertyName.ToUpper());
                 if (sourceProperty == null) continue;
 
-                BindaRegistration registration;
-                if (!_registrations.TryGetValue(control.GetType(), out registration)) continue;
-                if (!registration.PropertyType.IsAssignableFrom(sourceProperty.PropertyType)) continue;
-
-                var listControl = control as ComboBox;
+                var listControl = control as ListControl;
                 var collectionProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == controlPropertyName.Pluralize().ToUpper());
-                if (listControl != null && collectionProperty != null)
+                if (listControl != null && collectionProperty != null && typeof(IList).IsAssignableFrom(collectionProperty.PropertyType))
                 {
-                    listControl.DataSource = collectionProperty.GetValue(source, null);
-                    listControl.SelectedItem = sourceProperty.GetValue(source, null);
+                    var collection = (IList)collectionProperty.GetValue(source, null);
+                    var value = sourceProperty.GetValue(source, null);
+                    listControl.DataSource = collection;
+                    listControl.SelectedIndex = collection.IndexOf(value);
                 }
                 else
                 {
+                    BindaRegistration registration;
+                    if (!_registrations.TryGetValue(control.GetType(), out registration)) continue;
+                    if (!registration.PropertyType.IsAssignableFrom(sourceProperty.PropertyType)) continue;
                     var value = sourceProperty.GetValue(source, null);
                     Reflector.SetPropertyValue(control, registration.AccessProperty, value);
                 }

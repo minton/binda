@@ -247,7 +247,7 @@ namespace BindaTests
                 _post.PublishStates.Add(new PublishState {State = "Reviewed"});
                 _post.PublishStates.Add(new PublishState {State = "Pending Review"});
                 _post.PublishStates.Add(new PublishState {State = "Draft"});
-                _post.PublishState = _post.PublishStates[0];
+                _post.PublishState = _post.PublishStates[2];
             };
 
         Because of = () => _binder.Bind(_post, _form);
