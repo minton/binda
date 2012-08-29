@@ -17,7 +17,8 @@ namespace Binda
                                     {typeof (TextBox), new BindaRegistration("Text", typeof (string))},
                                     {typeof(CheckBox), new BindaRegistration("Checked", typeof(bool))},
                                     {typeof(RadioButton), new BindaRegistration("Checked", typeof(bool))},
-                                    {typeof(DateTimePicker), new BindaRegistration("Value", typeof(DateTime))}
+                                    {typeof(DateTimePicker), new BindaRegistration("Value", typeof(DateTime))},
+                                    {typeof(ComboBox), new BindaRegistration("SelectedItem", typeof(object))}
                                 };
         }
         /// <summary>
@@ -66,10 +67,19 @@ namespace Binda
                 BindaRegistration registration;
                 if (!_registrations.TryGetValue(control.GetType(), out registration)) continue;
                 if (!registration.PropertyType.IsAssignableFrom(sourceProperty.PropertyType)) continue;
-                
-                var value = sourceProperty.GetValue(source, null);
 
-                Reflector.SetPropertyValue(control, registration.AccessProperty, value);
+                var listControl = control as ComboBox;
+                var collectionProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == string.Format("{0}s", controlPropertyName).ToUpper());
+                if (listControl != null && collectionProperty != null)
+                {
+                    listControl.DataSource = collectionProperty.GetValue(source, null);
+                    listControl.SelectedItem = sourceProperty.GetValue(source, null);
+                }
+                else
+                {
+                    var value = sourceProperty.GetValue(source, null);
+                    Reflector.SetPropertyValue(control, registration.AccessProperty, value);
+                }
             }
         }
         /// <summary>

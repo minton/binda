@@ -234,4 +234,32 @@ namespace BindaTests
         static Post _post;
         static Exception _exception;
     }
+
+    [Subject(typeof(Binder))]
+    public class When_binding_an_form_to_an_object_with_a_property_and_a_collection_with_a_pluralized_name_of_the_property
+    {
+        Establish context = () =>
+            {
+                _binder = new Binder();
+                _form = new PostWithOptionsForm();
+                _post = NeededObjectsFactory.CreatePost();
+                _post.PublishStates.Add(new PublishState {State = "Published"});
+                _post.PublishStates.Add(new PublishState {State = "Reviewed"});
+                _post.PublishStates.Add(new PublishState {State = "Pending Review"});
+                _post.PublishStates.Add(new PublishState {State = "Draft"});
+                _post.PublishState = _post.PublishStates[0];
+            };
+
+        Because of = () => _binder.Bind(_post, _form);
+
+        It should_set_the_data_source_on_the_matching_control_to_the_corresponding_collection =
+            () => _form.PublishState.DataSource.ShouldBeTheSameAs(_post.PublishStates);
+
+        It should_set_the_selected_item_on_the_matching_control_to_the_correct_value =
+            () => _form.PublishState.SelectedItem.ShouldBeTheSameAs(_post.PublishState);
+
+        static Binder _binder;
+        static PostWithOptionsForm _form;
+        static Post _post;
+    }
 }
