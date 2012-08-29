@@ -29,6 +29,35 @@ Simple Data Binding for WinForms. It provides a easy way to get data from any [P
     var binda = new Binder();
     binda.Bind(myObject, myForm);
 
+## Binding a Collection and Item to a ListControl
+
+Binda supports binding a Collection and Item to a ListControl, like a ComboBox.
+Suppose you have a model like so:
+
+    public class Post
+    {
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public string Location { get; set; }
+        public string Body { get; set; }
+        public DateTime Date { get; set; }
+		 public PublishState PublishState { get; set; }
+        public BindingList<PublishState> PublishStates { get; set; }
+    }
+
+    public class PublishState
+    {
+        public string State { get; set; }
+
+        public override string ToString()
+        {
+            return State;
+        }
+    }
+
+If you have a ComboBox named PublishState on your form, then Binda will assign the PublishStates property to the ComboBox's DataSource property, and the PublishState property to the SelectedItem property.
+This works for any collection that implements IList. Binda assumes that the collection property name will be the plural form of the selected item property name. We use [Inflector](https://github.com/markrendle/Inflector) to accomplish this.
+
 ## Using property aliases
 
     var binda = new Binder();
