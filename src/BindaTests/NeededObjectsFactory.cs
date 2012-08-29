@@ -1,4 +1,5 @@
-﻿using BindaTests.NeededObjects;
+﻿using System.ComponentModel;
+using BindaTests.NeededObjects;
 using Test;
 
 namespace BindaTests
@@ -14,6 +15,7 @@ namespace BindaTests
                 Date = TestVariables.Posted,
                 Body = TestVariables.Body,
                 Location = TestVariables.Location,
+                PublishStates = new BindingList<PublishState>()
             };
         }
 
