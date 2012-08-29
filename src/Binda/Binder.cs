@@ -69,7 +69,7 @@ namespace Binda
                 if (!registration.PropertyType.IsAssignableFrom(sourceProperty.PropertyType)) continue;
 
                 var listControl = control as ComboBox;
-                var collectionProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == string.Format("{0}s", controlPropertyName).ToUpper());
+                var collectionProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == controlPropertyName.Pluralize().ToUpper());
                 if (listControl != null && collectionProperty != null)
                 {
                     listControl.DataSource = collectionProperty.GetValue(source, null);
