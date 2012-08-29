@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+
 namespace BindaTests.NeededObjects
 {
     public class Post
@@ -9,5 +11,17 @@ namespace BindaTests.NeededObjects
         public string Body { get; set; }
         public DateTime Date { get; set; }
         public Decimal? Radiation { get; set; }
+        public PublishState PublishState { get; set; }
+        public BindingList<PublishState> PublishStates { get; set; }
+    }
+
+    public class PublishState
+    {
+        public string State { get; set; }
+
+        public override string ToString()
+        {
+            return State;
+        }
     }
 }
