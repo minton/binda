@@ -54,7 +54,7 @@ namespace Binda
             if (source == null) throw new ArgumentNullException("source");
             if (destination == null) throw new ArgumentNullException("destination");
             var sourceProperties = source.GetType().GetProperties();
-            var controls = Reflector.GetAllControlsRecursive(destination).ToList();
+            var controls = destination.GetAllControlsRecursive<Control>().ToList();
             foreach (var control in controls)
             {
                 var controlPropertyName = control.Name;
@@ -81,7 +81,7 @@ namespace Binda
                     if (!_registrations.TryGetValue(control.GetType(), out registration)) continue;
                     if (!registration.PropertyType.IsAssignableFrom(sourceProperty.PropertyType)) continue;
                     var value = sourceProperty.GetValue(source, null);
-                    Reflector.SetPropertyValue(control, registration.AccessProperty, value);
+                    control.SetPropertyValue(registration.AccessProperty, value);
                 }
             }
         }
@@ -105,7 +105,7 @@ namespace Binda
             if (source == null) throw new ArgumentNullException("source");
             if (destination == null) throw new ArgumentNullException("destination");
             var properties = destination.GetType().GetProperties().Where(property => property.CanWrite);
-            var controls = Reflector.GetAllControlsRecursive(source).ToList();
+            var controls = source.GetAllControlsRecursive<Control>().ToList();
             foreach (var property in properties)
             {
                 var propertyName = property.Name;
@@ -120,7 +120,7 @@ namespace Binda
                 if (!_registrations.TryGetValue(control.GetType(), out registration)) continue;
                 if (!registration.PropertyType.IsAssignableFrom(property.PropertyType)) continue;
 
-                var value = Reflector.GetPropertyValue(control, registration.AccessProperty);
+                var value = control.GetPropertyValue(registration.AccessProperty);
                 property.SetValue(destination, value, null);
             }
         }
