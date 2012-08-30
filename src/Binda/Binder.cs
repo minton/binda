@@ -104,7 +104,7 @@ namespace Binda
         {
             if (source == null) throw new ArgumentNullException("source");
             if (destination == null) throw new ArgumentNullException("destination");
-            var properties = destination.GetType().GetProperties();
+            var properties = destination.GetType().GetProperties().Where(property => property.CanWrite);
             var controls = Reflector.GetAllControlsRecursive(source).ToList();
             foreach (var property in properties)
             {
