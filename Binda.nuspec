@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Binda</id>
+    <version>$version$</version>
+    <authors>Michael Minton, Will Green</authors>
+    <owners>minton, hotgazpacho</owners>
+    <projectUrl>https://github.com/minton/Binda</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Simple Data Binding for WinForms</description>
+    <copyright>Copyright 2012</copyright>
+    <tags>WinForms binding</tags>
+    <dependencies>
+      <dependency id="Inflector" version="1.0.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+      <file src="lib\net40\Binda.dll" target="lib\net40\Binda.dll" />
+    </files>
+</package>
