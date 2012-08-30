@@ -262,4 +262,31 @@ namespace BindaTests
         static PostWithOptionsForm _form;
         static Post _post;
     }
+
+	[Subject(typeof(Binder))]
+	public class When_extracting_data_from_the_form_back_the_model_with_a_collection_and_item_bound_to_a_list_control
+	{
+		Establish context = () => {
+			_binder = new Binder();
+			_form = new PostWithOptionsForm();
+			_post = NeededObjectsFactory.CreatePost();
+			_post.PublishStates.Add(new PublishState {State = "Published"});
+			_post.PublishStates.Add(new PublishState {State = "Reviewed"});
+			_post.PublishStates.Add(new PublishState {State = "Pending Review"});
+			_post.PublishStates.Add(new PublishState {State = "Draft"});
+			_post.PublishState = _post.PublishStates[2];
+			_binder.Bind(_post, _form);
+			_newState = _post.PublishStates [0];
+			_form.PublishState.SelectedItem = _newState;
+		};
+
+		Because of = () => _binder.Bind(_form, _post);
+
+		It should_update_the_model_with_the_new_selected_option = () => _post.PublishState.ShouldBeTheSameAs(_newState);
+
+		static Binder _binder;
+		static PostWithOptionsForm _form;
+		static Post _post;
+		static PublishState _newState;
+	}
 }
