@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using Binda.Utilities;
@@ -49,19 +50,16 @@ namespace Binda
         /// <param name="source">Any POCO.</param>
         /// <param name="destination">A Windows Form.</param>
         /// <param name="aliases">A list of BindaAlias.</param>
-        public void Bind(object source, Form destination, List<BindaAlias> aliases)
+        public void Bind(object source, Form destination, IList<BindaAlias> aliases)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (destination == null) throw new ArgumentNullException("destination");
             var sourceProperties = source.GetType().GetProperties();
-            var controls = destination.GetAllControlsRecursive<Control>().ToList();
+            var controls = destination.GetAllControlsRecursive<Control>().Where(c => _registrations.ContainsKey(c.GetType())).ToList();
             foreach (var control in controls)
             {
-                var controlPropertyName = control.Name;
                 var alias = aliases.FirstOrDefault(x => x.DestinationAlias.ToUpper() == control.Name.ToUpper());
-
-                if (alias != null)
-                    controlPropertyName = alias.Property;
+                var controlPropertyName = alias == null ? control.Name : alias.Property;
 
                 var sourceProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == controlPropertyName.ToUpper());
                 if (sourceProperty == null) continue;
@@ -71,17 +69,31 @@ namespace Binda
                 if (listControl != null && collectionProperty != null && typeof(IList).IsAssignableFrom(collectionProperty.PropertyType))
                 {
                     var collection = (IList)collectionProperty.GetValue(source, null);
-                    var value = sourceProperty.GetValue(source, null);
                     listControl.DataSource = collection;
+                    var value = sourceProperty.GetValue(source, null);
                     listControl.SelectedIndex = collection.IndexOf(value);
+                    if (source.GetType().GetInterfaces().Any(x => x == typeof(INotifyPropertyChanged)))
+                    {
+                        listControl.DataBindings.Add("SelectedValue", source,
+                                                     sourceProperty.Name, true,
+                                                     DataSourceUpdateMode.OnPropertyChanged);
+                    }
                 }
                 else
                 {
-                    BindaRegistration registration;
-                    if (!_registrations.TryGetValue(control.GetType(), out registration)) continue;
-                    if (!registration.PropertyType.IsAssignableFrom(sourceProperty.PropertyType)) continue;
-                    var value = sourceProperty.GetValue(source, null);
-                    control.SetPropertyValue(registration.AccessProperty, value);
+                    var registration = _registrations[control.GetType()];
+
+                    if (source.GetType().GetInterfaces().Any(x => x == typeof(INotifyPropertyChanged)))
+                    {
+                        control.DataBindings.Add(registration.AccessProperty, source,
+                                                 sourceProperty.Name, true,
+                                                 DataSourceUpdateMode.OnPropertyChanged);
+                    }
+                    else
+                    {
+                        var value = sourceProperty.GetValue(source, null);
+                        control.SetPropertyValue(registration.AccessProperty, value);
+                    }
                 }
             }
         }
@@ -100,7 +112,7 @@ namespace Binda
         /// <param name="source">A Windows Form.</param>
         /// <param name="destination">Any POCO.</param>
         /// <param name="aliases">A list of BindaAlias.</param>
-        public void Bind(Form source, object destination, List<BindaAlias> aliases)
+        public void Bind(Form source, object destination, IList<BindaAlias> aliases)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (destination == null) throw new ArgumentNullException("destination");

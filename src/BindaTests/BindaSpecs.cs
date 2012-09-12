@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Windows.Forms;
 using BindaTests.NeededObjects;
 using Machine.Specifications;
 using Binda;
 using Test;
+using Binder = Binda.Binder;
 
 namespace BindaTests
 {
@@ -289,4 +292,49 @@ namespace BindaTests
 		static Post _post;
 		static PublishState _newState;
 	}
+
+    [Subject(typeof(Binder))]
+    public class When_binding_a_form_to_an_object_that_implements_inotifypropertychanged_and_the_form_data_changes
+    {
+        Establish context = () =>
+        {
+            _binder = new Binder();
+            _form = new PostWithOptionsForm();
+            _post = NeededObjectsFactory.CreateNotifyingPost();
+            _post.PublishStates.Add(new PublishState { State = "Published" });
+            _post.PublishStates.Add(new PublishState { State = "Reviewed" });
+            _post.PublishStates.Add(new PublishState { State = "Pending Review" });
+            _post.PublishStates.Add(new PublishState { State = "Draft" });
+            _post.PublishState = _post.PublishStates[2];
+            _binder.Bind(_post, _form, new[] { new BindaAlias("Location", "PostLocation") });
+            CreateControl(_form);
+        };
+
+        Because of = () =>
+        {
+            _form.Title.Text = "New Title";
+            _form.Author.Text = "New Author";
+            _form.PostLocation.Text = "New Location";
+            _form.Body.Text = "New Body";
+            _form.Date.Value = new DateTime(1979, 12, 31);
+            _form.PublishState.SelectedItem = _post.PublishStates[3];
+        };
+
+        It should_synchronize_the_title_to_the_model = () => _post.Title.ShouldEqual("New Title");
+        It should_synchronize_the_author_to_the_model = () => _post.Author.ShouldEqual("New Author");
+        It should_synchronize_the_location_to_the_model = () => _post.Location.ShouldEqual("New Location");
+        It should_synchronize_the_body_to_the_model = () => _post.Body.ShouldEqual("New Body");
+        It should_synchronize_the_date_to_the_model = () => _post.Date.ShouldEqual(new DateTime(1979, 12, 31));
+        It should_synchronize_the_publishstate_to_the_model = () => _post.PublishState.ShouldEqual(_post.PublishStates[3]);
+
+        static void CreateControl(Control control)
+        {
+            var method = control.GetType().GetMethod("CreateControl", BindingFlags.Instance | BindingFlags.NonPublic);
+            method.Invoke(control, new object[] { true });
+        }
+
+        static Binder _binder;
+        static PostWithOptionsForm _form;
+        static NotifyingPost _post;
+    }
 }
