@@ -92,13 +92,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindaAlias.cs" />
-    <Compile Include="BindaRegistration.cs" />
+    <Compile Include="DefaultBindaStrategy.cs" />
+    <Compile Include="BindaStrategy.cs" />
     <Compile Include="Binder.cs" />
+    <Compile Include="ListControlBindaStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Reflector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BindaKey.pfx" />
     <None Include="bin\x86\Release\binda.snk" />
     <None Include="packages.config" />
   </ItemGroup>
