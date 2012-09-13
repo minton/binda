@@ -93,18 +93,12 @@ namespace Binda
                 }
                 else
                 {
-                    //var registration = _registrations[control.GetType()];
                     var strategy = _strategies[control.GetType()];
 
-                    if (source.GetType().GetInterfaces().Any(x => x == typeof(INotifyPropertyChanged)))
-                    {
+                    if (source.GetType().GetInterfaces().Any(x => x == typeof (INotifyPropertyChanged)))
                         strategy.Bind(control, source, sourceProperty.Name);
-                    }
                     else
-                    {
-                        var value = sourceProperty.GetValue(source, null);
-                        strategy.Set(control, value);
-                    }
+                        strategy.Set(control, source, sourceProperty.Name);
                 }
             }
         }

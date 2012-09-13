@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Binda.Utilities;
 
@@ -21,8 +23,11 @@ namespace Binda
                                      DataSourceUpdateMode.OnPropertyChanged);
         }
 
-        void SetControlValue(Control control, object value)
+        void SetControlValue(Control control, object source, string propertyName)
         {
+            var sourceProperty = source.GetType().GetProperty(propertyName);
+            if (sourceProperty == null) return;
+            var value = sourceProperty.GetValue(source, null);
             control.SetPropertyValue(ControlPropertyName, value);
         }
 
