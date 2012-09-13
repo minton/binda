@@ -11,19 +11,19 @@ namespace Binda
 {
     public class Binder
     {
-        readonly Dictionary<Type, BindaRegistration> _registrations;
+        readonly Dictionary<Type, BindaStrategy> _strategies; 
 
         public Binder()
         {
-            _registrations = new Dictionary<Type, BindaRegistration>
-                                {
-                                    {typeof (TextBox), new BindaRegistration("Text", typeof (string))},
-                                    {typeof(CheckBox), new BindaRegistration("Checked", typeof(bool))},
-                                    {typeof(RadioButton), new BindaRegistration("Checked", typeof(bool))},
-                                    {typeof(DateTimePicker), new BindaRegistration("Value", typeof(DateTime))},
-									{typeof(ComboBox), new BindaRegistration("SelectedItem", typeof(object))},
-									{typeof(NumericUpDown), new BindaRegistration("Value", typeof(object))}
-                                };
+            _strategies = new Dictionary<Type, BindaStrategy>
+                              {
+                                  {typeof (TextBox), new DefaultBindaStrategy("Text")},
+                                  {typeof (CheckBox), new DefaultBindaStrategy("Checked")},
+                                  {typeof (RadioButton), new DefaultBindaStrategy("Checked")},
+                                  {typeof (DateTimePicker), new DefaultBindaStrategy("Value")},
+                                  {typeof (ComboBox), new DefaultBindaStrategy("SelectedItem")},
+                                  {typeof (NumericUpDown), new DefaultBindaStrategy("Value")}
+                              };
         }
         /// <summary>
         /// Add a new BindaRegistration to the Binder.
@@ -31,9 +31,20 @@ namespace Binda
         /// <param name="control">The type of the custom control.</param>
         /// <param name="property">The property used to get/set the value on the control.</param>
         /// <param name="type">The data type of the property.</param>
+        [Obsolete("Use AdRegistration(Type, string)")]
         public void AddRegistration(Type control, string property, Type type)
         {
-            _registrations.Add(control, new BindaRegistration(property, type));
+            AddRegistration(control, property);
+        }
+
+        /// <summary>
+        /// Add a new Binda Registration for a control type
+        /// </summary>
+        /// <param name="controlType"></param>
+        /// <param name="propertyName"></param>
+        public void AddRegistration(Type controlType, string propertyName)
+        {
+            _strategies[controlType] = new DefaultBindaStrategy(propertyName);
         }
 
         /// <summary>
@@ -47,7 +58,7 @@ namespace Binda
         }
         /// <summary>
         /// Binds an object to a Form via property names including aliases.
-        /// </summary>
+        /// </summary>S
         /// <param name="source">Any POCO.</param>
         /// <param name="destination">A Windows Form.</param>
         /// <param name="aliases">A list of BindaAlias.</param>
@@ -56,7 +67,7 @@ namespace Binda
             if (source == null) throw new ArgumentNullException("source");
             if (destination == null) throw new ArgumentNullException("destination");
             var sourceProperties = source.GetType().GetProperties();
-            var controls = destination.GetAllControlsRecursive<Control>().Where(c => _registrations.ContainsKey(c.GetType())).ToList();
+            var controls = destination.GetAllControlsRecursive<Control>().Where(c => _strategies.ContainsKey(c.GetType())).ToList();
             foreach (var control in controls)
             {
                 var alias = aliases.FirstOrDefault(x => x.DestinationAlias.ToUpper() == control.Name.ToUpper());
@@ -82,18 +93,17 @@ namespace Binda
                 }
                 else
                 {
-                    var registration = _registrations[control.GetType()];
+                    //var registration = _registrations[control.GetType()];
+                    var strategy = _strategies[control.GetType()];
 
                     if (source.GetType().GetInterfaces().Any(x => x == typeof(INotifyPropertyChanged)))
                     {
-                        control.DataBindings.Add(registration.AccessProperty, source,
-                                                 sourceProperty.Name, true,
-                                                 DataSourceUpdateMode.OnPropertyChanged);
+                        strategy.Bind(control, source, sourceProperty.Name);
                     }
                     else
                     {
                         var value = sourceProperty.GetValue(source, null);
-                        control.SetPropertyValue(registration.AccessProperty, value);
+                        strategy.Set(control, value);
                     }
                 }
             }
@@ -118,7 +128,7 @@ namespace Binda
             if (source == null) throw new ArgumentNullException("source");
             if (destination == null) throw new ArgumentNullException("destination");
             var properties = destination.GetType().GetProperties().Where(property => property.CanWrite);
-            var controls = source.GetAllControlsRecursive<Control>().ToList();
+            var controls = source.GetAllControlsRecursive<Control>().Where(c => _strategies.ContainsKey(c.GetType())).ToList();
             foreach (var property in properties)
             {
                 var propertyName = property.Name;
@@ -129,11 +139,8 @@ namespace Binda
                 var control = controls.FirstOrDefault(x => x.Name.ToUpper() == propertyName.ToUpper());
                 if (control == null) continue;
 
-                BindaRegistration registration;
-                if (!_registrations.TryGetValue(control.GetType(), out registration)) continue;
-                if (!registration.PropertyType.IsAssignableFrom(property.PropertyType)) continue;
-
-                var value = control.GetPropertyValue(registration.AccessProperty);
+                var strategy = _strategies[control.GetType()];
+                var value = strategy.Get(control);
                 property.SetValue(destination, value, null);
             }
         }
