@@ -19,6 +19,20 @@ namespace BindaTests
             };
         }
 
+        public static NotifyingPost CreateNotifyingPost()
+        {
+            return new NotifyingPost
+            {
+                Title = TestVariables.Title,
+                Author = TestVariables.Author,
+                Date = TestVariables.Posted,
+                Body = TestVariables.Body,
+                Location = TestVariables.Location,
+                PublishStates = new BindingList<PublishState>(),
+                HitCount = 42m
+            };
+        }
+
         public static MySampleForm CreateForm()
         {
            return new MySampleForm

@@ -24,4 +24,19 @@ namespace BindaTests.NeededObjects
             return State;
         }
     }
+
+    public class NotifyingPost : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public string Location { get; set; }
+        public string Body { get; set; }
+        public decimal HitCount { get; set; }
+        public DateTime Date { get; set; }
+        public Decimal? Radiation { get; set; }
+        public PublishState PublishState { get; set; }
+        public BindingList<PublishState> PublishStates { get; set; }
+    }
 }
