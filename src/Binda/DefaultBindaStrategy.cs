@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 using Binda.Utilities;
 
@@ -9,21 +7,18 @@ namespace Binda
     {
         public DefaultBindaStrategy(string controlPropertyName)
         {
-            Set = SetControlValue;
-            Get = GetControlValue;
-            Bind = BindControl;
             ControlPropertyName = controlPropertyName;
         }
 
         public string ControlPropertyName { get; private set; }
 
-        void BindControl(Control control, object dataSource, string dataMember)
+        public override void BindControl(Control control, object source, string propertyName)
         {
-            control.DataBindings.Add(ControlPropertyName, dataSource, dataMember, true,
+            control.DataBindings.Add(ControlPropertyName, source, propertyName, true,
                                      DataSourceUpdateMode.OnPropertyChanged);
         }
 
-        void SetControlValue(Control control, object source, string propertyName)
+        public override void SetControlValue(Control control, object source, string propertyName)
         {
             var sourceProperty = source.GetType().GetProperty(propertyName);
             if (sourceProperty == null) return;
@@ -31,7 +26,7 @@ namespace Binda
             control.SetPropertyValue(ControlPropertyName, value);
         }
 
-        object GetControlValue(Control control)
+        public override object GetControlValue(Control control)
         {
             return control.GetPropertyValue(ControlPropertyName);
         }

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using Binda.Utilities;
-using Inflector;
 
 namespace Binda
 {
@@ -21,8 +19,8 @@ namespace Binda
                                   {typeof (CheckBox), new DefaultBindaStrategy("Checked")},
                                   {typeof (RadioButton), new DefaultBindaStrategy("Checked")},
                                   {typeof (DateTimePicker), new DefaultBindaStrategy("Value")},
-                                  {typeof (ComboBox), new DefaultBindaStrategy("SelectedItem")},
-                                  {typeof (NumericUpDown), new DefaultBindaStrategy("Value")}
+                                  {typeof (NumericUpDown), new DefaultBindaStrategy("Value")},
+                                  {typeof (ComboBox), new ListControlBindaStrategy()},
                               };
         }
         /// <summary>
@@ -38,13 +36,23 @@ namespace Binda
         }
 
         /// <summary>
-        /// Add a new Binda Registration for a control type
+        /// Add a new Default Binda Strategy for a control type
         /// </summary>
         /// <param name="controlType"></param>
         /// <param name="propertyName"></param>
         public void AddRegistration(Type controlType, string propertyName)
         {
-            _strategies[controlType] = new DefaultBindaStrategy(propertyName);
+            AddRegistration(controlType, new DefaultBindaStrategy(propertyName));
+        }
+
+        /// <summary>
+        /// Add a Custom Binda Strategy for a control type
+        /// </summary>
+        /// <param name="controlType"></param>
+        /// <param name="strategy"></param>
+        public void AddRegistration(Type controlType, BindaStrategy strategy)
+        {
+            _strategies[controlType] = strategy;
         }
 
         /// <summary>
@@ -71,35 +79,16 @@ namespace Binda
             foreach (var control in controls)
             {
                 var alias = aliases.FirstOrDefault(x => x.DestinationAlias.ToUpper() == control.Name.ToUpper());
-                var controlPropertyName = alias == null ? control.Name : alias.Property;
+                var controlName = alias == null ? control.Name : alias.Property;
 
-                var sourceProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == controlPropertyName.ToUpper());
+                var sourceProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == controlName.ToUpper());
                 if (sourceProperty == null) continue;
 
-                var listControl = control as ListControl;
-                var collectionProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == controlPropertyName.Pluralize().ToUpper());
-                if (listControl != null && collectionProperty != null && typeof(IList).IsAssignableFrom(collectionProperty.PropertyType))
-                {
-                    var collection = (IList)collectionProperty.GetValue(source, null);
-                    listControl.DataSource = collection;
-                    var value = sourceProperty.GetValue(source, null);
-                    listControl.SelectedIndex = collection.IndexOf(value);
-                    if (source.GetType().GetInterfaces().Any(x => x == typeof(INotifyPropertyChanged)))
-                    {
-                        listControl.DataBindings.Add("SelectedValue", source,
-                                                     sourceProperty.Name, true,
-                                                     DataSourceUpdateMode.OnPropertyChanged);
-                    }
-                }
+                var strategy = _strategies[control.GetType()];
+                if (source.GetType().GetInterfaces().Any(x => x == typeof (INotifyPropertyChanged)))
+                    strategy.BindControl(control, source, sourceProperty.Name);
                 else
-                {
-                    var strategy = _strategies[control.GetType()];
-
-                    if (source.GetType().GetInterfaces().Any(x => x == typeof (INotifyPropertyChanged)))
-                        strategy.Bind(control, source, sourceProperty.Name);
-                    else
-                        strategy.Set(control, source, sourceProperty.Name);
-                }
+                    strategy.SetControlValue(control, source, sourceProperty.Name);
             }
         }
         /// <summary>
@@ -134,7 +123,7 @@ namespace Binda
                 if (control == null) continue;
 
                 var strategy = _strategies[control.GetType()];
-                var value = strategy.Get(control);
+                var value = strategy.GetControlValue(control);
                 property.SetValue(destination, value, null);
             }
         }
