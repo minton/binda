@@ -40,6 +40,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.PublishState = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.HitCount = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.HitCount)).BeginInit();
             this.SuspendLayout();
             // 
             // Date
@@ -144,11 +147,29 @@
             this.label5.TabIndex = 16;
             this.label5.Text = "Publish State";
             // 
+            // HitCount
+            // 
+            this.HitCount.Location = new System.Drawing.Point(401, 64);
+            this.HitCount.Name = "HitCount";
+            this.HitCount.Size = new System.Drawing.Size(120, 20);
+            this.HitCount.TabIndex = 17;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(398, 49);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(54, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Hit Count:";
+            // 
             // PostWithOptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(852, 512);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.HitCount);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.PublishState);
             this.Controls.Add(this.Date);
@@ -163,6 +184,7 @@
             this.Controls.Add(this.label1);
             this.Name = "PostWithOptionsForm";
             this.Text = "PostWithOptionsForm";
+            ((System.ComponentModel.ISupportInitialize)(this.HitCount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -182,5 +204,7 @@
         public System.Windows.Forms.TextBox Author;
         public System.Windows.Forms.TextBox Title;
         public System.Windows.Forms.ComboBox PublishState;
+        private System.Windows.Forms.Label label6;
+        public System.Windows.Forms.NumericUpDown HitCount;
     }
 }

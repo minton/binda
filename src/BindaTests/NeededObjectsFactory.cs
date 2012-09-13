@@ -28,7 +28,8 @@ namespace BindaTests
                 Date = TestVariables.Posted,
                 Body = TestVariables.Body,
                 Location = TestVariables.Location,
-                PublishStates = new BindingList<PublishState>()
+                PublishStates = new BindingList<PublishState>(),
+                HitCount = 42m
             };
         }
 

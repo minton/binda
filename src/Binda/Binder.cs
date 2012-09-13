@@ -21,7 +21,8 @@ namespace Binda
                                     {typeof(CheckBox), new BindaRegistration("Checked", typeof(bool))},
                                     {typeof(RadioButton), new BindaRegistration("Checked", typeof(bool))},
                                     {typeof(DateTimePicker), new BindaRegistration("Value", typeof(DateTime))},
-									{typeof(ComboBox), new BindaRegistration("SelectedItem", typeof(object))}
+									{typeof(ComboBox), new BindaRegistration("SelectedItem", typeof(object))},
+									{typeof(NumericUpDown), new BindaRegistration("Value", typeof(object))}
                                 };
         }
         /// <summary>

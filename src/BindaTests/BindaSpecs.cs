@@ -318,6 +318,7 @@ namespace BindaTests
             _form.Body.Text = "New Body";
             _form.Date.Value = new DateTime(1979, 12, 31);
             _form.PublishState.SelectedItem = _post.PublishStates[3];
+            _form.HitCount.Value = (decimal) Math.Round(Math.PI, 12);
         };
 
         It should_synchronize_the_title_to_the_model = () => _post.Title.ShouldEqual("New Title");
@@ -326,6 +327,7 @@ namespace BindaTests
         It should_synchronize_the_body_to_the_model = () => _post.Body.ShouldEqual("New Body");
         It should_synchronize_the_date_to_the_model = () => _post.Date.ShouldEqual(new DateTime(1979, 12, 31));
         It should_synchronize_the_publishstate_to_the_model = () => _post.PublishState.ShouldEqual(_post.PublishStates[3]);
+        It should_synchronize_the_hitcount_to_the_model = () => _post.HitCount.ShouldEqual((decimal)Math.Round(Math.PI, 12));
 
         static void CreateControl(Control control)
         {

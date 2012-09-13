@@ -33,6 +33,7 @@ namespace BindaTests.NeededObjects
         public string Author { get; set; }
         public string Location { get; set; }
         public string Body { get; set; }
+        public decimal HitCount { get; set; }
         public DateTime Date { get; set; }
         public Decimal? Radiation { get; set; }
         public PublishState PublishState { get; set; }
