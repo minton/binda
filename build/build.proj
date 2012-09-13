@@ -11,12 +11,21 @@
  
   <UsingTask AssemblyFile="$(MSBuildExtensions)" TaskName="MSBuild.Community.Tasks.XmlUpdate" />
  
-  <Target Name="default" DependsOnTargets="Compile; Package" />
+  <Target Name="default" DependsOnTargets="Compile; Spec; Package" />
  
   <Target Name="Compile">
+    <Message Importance="high" Text="Building Binda in $(Configuration) configuration"/>
     <MSBuild Projects="$(SolutionFile)" Properties="Configuration=$(Configuration)"  />
   </Target>
- 
+
+  <Target Name="Spec">
+    <PropertyGroup>
+      <MSpecCommand>$(BaseDir)src\Binda\packages\Machine.Specifications-Signed.0.5.7\tools\mspec-clr4.exe $(AdditionalSettings) $(BaseDir)src\BindaTests\bin\$(Configuration)\BindaTests.dll</MSpecCommand>
+    </PropertyGroup>
+    <Message Importance="high" Text="Running Specs with this command: $(MSpecCommand)"/>
+    <Exec Command="$(MSpecCommand)" />
+  </Target>
+
   <Target Name="Package">
     <ItemGroup>
       <MainBinaries Include="$(OutputDir)\*.*" />
