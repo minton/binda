@@ -76,6 +76,10 @@ I used [MSpec](https://github.com/machine/machine.specifications) for testing an
 
     mspec.exe BindaTests.dll
 
+# Have an issue?
+
+Submit an issue directly on GitHub and we'll take a look.
+
 # Why WinForms?
 
 A lot of developers, myself included, are still actively working with legacy code on platforms where there is weak support for data binding. Binda in combination with an ORM like [Dapper](https://github.com/SamSaffron/dapper-dot-net) will make working with WinForms much less tedious.
