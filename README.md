@@ -67,7 +67,7 @@ This works for any collection that implements IList. Binda assumes that the coll
 ## Using custom .NET controls
 
     var binda = new Binder();
-    _binder.AddRegistration(typeof(PersonControl), "FirstName", typeof(string));
+    _binder.AddRegistration(typeof(PersonControl), "FirstName");
     binda.Bind(myObject, myForm);
 
 # How do I run the tests?
@@ -79,3 +79,15 @@ I used [MSpec](https://github.com/machine/machine.specifications) for testing an
 # Why WinForms?
 
 A lot of developers, myself included, are still actively working with legacy code on platforms where there is weak support for data binding. Binda in combination with an ORM like [Dapper](https://github.com/SamSaffron/dapper-dot-net) will make working with WinForms much less tedious.
+
+# Credit
+
+Binda began as a quick spike by Michael Minton to bind POCO to WinForms and has since evolved into something useful thanks to the contributions from Will Green.
+
+# License
+
+Copyright (c) 2012, Michael Minton
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in full in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
