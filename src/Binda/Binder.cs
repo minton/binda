@@ -29,7 +29,7 @@ namespace Binda
         /// <param name="control">The type of the custom control.</param>
         /// <param name="property">The property used to get/set the value on the control.</param>
         /// <param name="type">The data type of the property.</param>
-        [Obsolete("Use AdRegistration(Type, string)")]
+        [Obsolete("Use AddRegistration(Type, string)")]
         public void AddRegistration(Type control, string property, Type type)
         {
             AddRegistration(control, property);
@@ -46,7 +46,7 @@ namespace Binda
         }
 
         /// <summary>
-        /// Add a Custom Binda Strategy for a control type
+        /// Add a Custom Binda Strategy for a control type.
         /// </summary>
         /// <param name="controlType"></param>
         /// <param name="strategy"></param>
@@ -66,7 +66,7 @@ namespace Binda
         }
         /// <summary>
         /// Binds an object to a Form via property names including aliases.
-        /// </summary>S
+        /// </summary>
         /// <param name="source">Any POCO.</param>
         /// <param name="destination">A Windows Form.</param>
         /// <param name="aliases">A list of BindaAlias.</param>
