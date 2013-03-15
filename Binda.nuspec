@@ -8,7 +8,7 @@
     <projectUrl>https://github.com/minton/Binda</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Simple Data Binding for WinForms</description>
-    <copyright>Copyright 2012</copyright>
+    <copyright>Copyright 2012-2013</copyright>
     <tags>WinForms binding</tags>
     <dependencies>
       <dependency id="Inflector" version="1.0.0.0" />

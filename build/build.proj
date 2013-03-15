@@ -7,7 +7,7 @@
     <PackageDir>$(BaseDir)NuGet\</PackageDir>
     <SolutionFile>$(BaseDir)src\Binda\Binda.sln</SolutionFile>
     <MSBuildExtensions>$(BuildDir)\msbuild.community.tasks.dll</MSBuildExtensions>
-	<OutputDir Condition="'$(OutputDir)'==''">$(BaseDir)src\Binda\bin\$(Configuration)</OutputDir>
+	<OutputDir Condition="'$(OutputDir)'==''">$(BaseDir)src\Binda\bin\$(Platform)\$(Configuration)</OutputDir>
   </PropertyGroup>
  
   <UsingTask AssemblyFile="$(MSBuildExtensions)" TaskName="MSBuild.Community.Tasks.XmlUpdate" />
