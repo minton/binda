@@ -42,6 +42,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.HitCount = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
+            this.Comments = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.HitCount)).BeginInit();
             this.SuspendLayout();
             // 
@@ -163,11 +164,19 @@
             this.label6.TabIndex = 18;
             this.label6.Text = "Hit Count:";
             // 
+            // Comments
+            // 
+            this.Comments.Location = new System.Drawing.Point(660, 24);
+            this.Comments.Name = "Comments";
+            this.Comments.Size = new System.Drawing.Size(180, 420);
+            this.Comments.TabIndex = 19;
+            // 
             // PostWithOptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(852, 512);
+            this.Controls.Add(this.Comments);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.HitCount);
             this.Controls.Add(this.label5);
@@ -206,5 +215,6 @@
         public System.Windows.Forms.ComboBox PublishState;
         private System.Windows.Forms.Label label6;
         public System.Windows.Forms.NumericUpDown HitCount;
+        internal System.Windows.Forms.TreeView Comments;
     }
 }

@@ -97,6 +97,7 @@
     <Compile Include="Binder.cs" />
     <Compile Include="ListControlBindaStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeViewBindaStrategy.cs" />
     <Compile Include="Utilities\Reflector.cs" />
   </ItemGroup>
   <ItemGroup>

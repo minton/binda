@@ -9,6 +9,6 @@ namespace Test
         internal const string Author = "Dr. Anderson Silva";
         internal const string Title = "Why Medical Unit Tests Fail";
         internal const string Location = "Tampa, FL";
-        internal static readonly decimal? Radiation = 42.314m;
+        internal static readonly decimal? PopularityRanking = 42.314m;
     }
 }

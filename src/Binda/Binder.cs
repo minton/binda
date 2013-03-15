@@ -9,7 +9,7 @@ namespace Binda
 {
     public class Binder
     {
-        readonly Dictionary<Type, BindaStrategy> _strategies; 
+        readonly Dictionary<Type, BindaStrategy> _strategies;
 
         public Binder()
         {
@@ -21,6 +21,7 @@ namespace Binda
                                   {typeof (DateTimePicker), new DefaultBindaStrategy("Value")},
                                   {typeof (NumericUpDown), new DefaultBindaStrategy("Value")},
                                   {typeof (ComboBox), new ListControlBindaStrategy()},
+                                  {typeof(TreeView), new TreeViewBindaStrategy()}
                               };
         }
         /// <summary>
@@ -80,12 +81,10 @@ namespace Binda
             {
                 var alias = aliases.FirstOrDefault(x => x.DestinationAlias.ToUpper() == control.Name.ToUpper());
                 var controlName = alias == null ? control.Name : alias.Property;
-
                 var sourceProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == controlName.ToUpper());
                 if (sourceProperty == null) continue;
-
                 var strategy = _strategies[control.GetType()];
-                if (source.GetType().GetInterfaces().Any(x => x == typeof (INotifyPropertyChanged)))
+                if (source.GetType().GetInterfaces().Any(x => x == typeof(INotifyPropertyChanged)))
                     strategy.BindControl(control, source, sourceProperty.Name);
                 else
                     strategy.SetControlValue(control, source, sourceProperty.Name);

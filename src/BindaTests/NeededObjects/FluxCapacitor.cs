@@ -8,6 +8,6 @@ namespace BindaTests.NeededObjects
         {
             InitializeComponent();
         }
-        public decimal? Radiation { get; set; }
+        public decimal? PopularityRanking { get; set; }
     }
 }

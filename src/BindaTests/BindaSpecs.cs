@@ -7,6 +7,7 @@ using Machine.Specifications;
 using Binda;
 using Test;
 using Binder = Binda.Binder;
+using System.Linq;
 
 namespace BindaTests
 {
@@ -39,10 +40,10 @@ namespace BindaTests
         Establish context = () =>
                                 {
                                     _binder = new Binder();
-                                    _binder.AddRegistration(typeof(FluxCapacitor), "Radiation", typeof(decimal?));
+                                    _binder.AddRegistration(typeof(FluxCapacitor), "PopularityRanking", typeof(decimal?));
                                     _form = new MySampleForm();
                                     _post = NeededObjectsFactory.CreatePost();
-                                    _post.Radiation = TestVariables.Radiation;
+                                    _post.PopularityRanking = TestVariables.PopularityRanking;
                                 };
 
         Because of = () => _binder.Bind(_post, _form);
@@ -53,7 +54,7 @@ namespace BindaTests
                                                                                             _form.Author.Text.ShouldEqual(TestVariables.Author);
                                                                                             _form.Date.Value.ShouldEqual(TestVariables.Posted);
                                                                                             _form.Body.Text.ShouldEqual(TestVariables.Body);
-                                                                                            _form.Radiation.Radiation.ShouldEqual(TestVariables.Radiation);
+                                                                                            _form.PopularityRanking.PopularityRanking.ShouldEqual(TestVariables.PopularityRanking);
                                                                                         };
         static Binder _binder;
         static MySampleForm _form;
@@ -114,9 +115,9 @@ namespace BindaTests
         Establish context = () =>
         {
             _binder = new Binder();
-            _binder.AddRegistration(typeof(FluxCapacitor), "Radiation", typeof(decimal?));
+            _binder.AddRegistration(typeof(FluxCapacitor), "PopularityRanking", typeof(decimal?));
             _form = NeededObjectsFactory.CreateForm();
-            _form.Radiation.Radiation = TestVariables.Radiation;
+            _form.PopularityRanking.PopularityRanking = TestVariables.PopularityRanking;
             _post = new Post();
         };
 
@@ -128,7 +129,7 @@ namespace BindaTests
                                                                                             _post.Author.ShouldEqual(TestVariables.Author);
                                                                                             _post.Date.ShouldEqual(TestVariables.Posted);
                                                                                             _post.Body.ShouldEqual(TestVariables.Body);
-                                                                                            _post.Radiation.ShouldEqual(TestVariables.Radiation);
+                                                                                            _post.PopularityRanking.ShouldEqual(TestVariables.PopularityRanking);
                                                                                         };
         static Binder _binder;
         static MySampleForm _form;
@@ -246,10 +247,10 @@ namespace BindaTests
                 _binder = new Binder();
                 _form = new PostWithOptionsForm();
                 _post = NeededObjectsFactory.CreatePost();
-                _post.PublishStates.Add(new PublishState {State = "Published"});
-                _post.PublishStates.Add(new PublishState {State = "Reviewed"});
-                _post.PublishStates.Add(new PublishState {State = "Pending Review"});
-                _post.PublishStates.Add(new PublishState {State = "Draft"});
+                _post.PublishStates.Add(new PublishState { State = "Published" });
+                _post.PublishStates.Add(new PublishState { State = "Reviewed" });
+                _post.PublishStates.Add(new PublishState { State = "Pending Review" });
+                _post.PublishStates.Add(new PublishState { State = "Draft" });
                 _post.PublishState = _post.PublishStates[2];
             };
 
@@ -266,32 +267,33 @@ namespace BindaTests
         static Post _post;
     }
 
-	[Subject(typeof(Binder))]
-	public class When_extracting_data_from_the_form_back_the_model_with_a_collection_and_item_bound_to_a_list_control
-	{
-		Establish context = () => {
-			_binder = new Binder();
-			_form = new PostWithOptionsForm();
-			_post = NeededObjectsFactory.CreatePost();
-			_post.PublishStates.Add(new PublishState {State = "Published"});
-			_post.PublishStates.Add(new PublishState {State = "Reviewed"});
-			_post.PublishStates.Add(new PublishState {State = "Pending Review"});
-			_post.PublishStates.Add(new PublishState {State = "Draft"});
-			_post.PublishState = _post.PublishStates[2];
-			_binder.Bind(_post, _form);
-			_newState = _post.PublishStates [0];
-			_form.PublishState.SelectedItem = _newState;
-		};
+    [Subject(typeof(Binder))]
+    public class When_extracting_data_from_the_form_back_the_model_with_a_collection_and_item_bound_to_a_list_control
+    {
+        Establish context = () =>
+        {
+            _binder = new Binder();
+            _form = new PostWithOptionsForm();
+            _post = NeededObjectsFactory.CreatePost();
+            _post.PublishStates.Add(new PublishState { State = "Published" });
+            _post.PublishStates.Add(new PublishState { State = "Reviewed" });
+            _post.PublishStates.Add(new PublishState { State = "Pending Review" });
+            _post.PublishStates.Add(new PublishState { State = "Draft" });
+            _post.PublishState = _post.PublishStates[2];
+            _binder.Bind(_post, _form);
+            _newState = _post.PublishStates[0];
+            _form.PublishState.SelectedItem = _newState;
+        };
 
-		Because of = () => _binder.Bind(_form, _post);
+        Because of = () => _binder.Bind(_form, _post);
 
-		It should_update_the_model_with_the_new_selected_option = () => _post.PublishState.ShouldBeTheSameAs(_newState);
+        It should_update_the_model_with_the_new_selected_option = () => _post.PublishState.ShouldBeTheSameAs(_newState);
 
-		static Binder _binder;
-		static PostWithOptionsForm _form;
-		static Post _post;
-		static PublishState _newState;
-	}
+        static Binder _binder;
+        static PostWithOptionsForm _form;
+        static Post _post;
+        static PublishState _newState;
+    }
 
     [Subject(typeof(Binder))]
     public class When_binding_a_form_to_an_object_that_implements_inotifypropertychanged_and_the_form_data_changes
@@ -318,7 +320,7 @@ namespace BindaTests
             _form.Body.Text = "New Body";
             _form.Date.Value = new DateTime(1979, 12, 31);
             _form.PublishState.SelectedItem = _post.PublishStates[3];
-            _form.HitCount.Value = (decimal) Math.Round(Math.PI, 12);
+            _form.HitCount.Value = (decimal)Math.Round(Math.PI, 12);
         };
 
         It should_synchronize_the_title_to_the_model = () => _post.Title.ShouldEqual("New Title");
@@ -338,5 +340,66 @@ namespace BindaTests
         static Binder _binder;
         static PostWithOptionsForm _form;
         static NotifyingPost _post;
+    }
+
+    [Subject(typeof(Binder))]
+    public class When_binding_a_tree_view_to_a_form
+    {
+        Establish context = () =>
+        {
+            _binder = new Binder();
+            _form = new PostWithOptionsForm();
+            _post = NeededObjectsFactory.CreatePost();
+            var comments = NeededObjectsFactory.GenerateComments();
+            _post.Comments.AddRange(comments);
+        };
+
+        Because of = () =>
+            {
+                _binder.Bind(_post, _form);
+                _allNodes = _form.Comments.GetAllNodesRecursive();
+            };
+
+        It should_set_the_tag_on_all_nodes = () => _allNodes.ShouldEachConformTo(x => x.Tag != null);
+        It should_create_two_root_nodes = () => _form.Comments.Nodes.Count.ShouldEqual(2);
+        It should_have_one_reply_to_the_first_comment = () => _allNodes.GetNodeCommentByAuthor("Tom").Nodes.Count.ShouldEqual(1);
+        It should_have_one_reply_to_the_first_comments_reply = () => _allNodes.GetNodeCommentByAuthor("Tom").Nodes[0].Nodes.Count.ShouldEqual(1);
+        It should_have_one_reply_to_the_second_comment = () => _allNodes.GetNodeCommentByAuthor("Sam").Nodes.Count.ShouldEqual(1);
+
+
+        static Binder _binder;
+        static PostWithOptionsForm _form;
+        static Post _post;
+        static IEnumerable<TreeNode> _allNodes;
+    }
+
+    [Subject(typeof(Binder))]
+    public class When_binding_a_form_to_a_tree_view
+    {
+        Establish context = () =>
+        {
+            _binder = new Binder();
+            _form = new PostWithOptionsForm();
+            _post = NeededObjectsFactory.CreatePost();
+            var comments = NeededObjectsFactory.GenerateComments();
+            _post.Comments.AddRange(comments);
+            _binder.Bind(_post, _form);
+        };        
+
+        Because of = () =>
+        {
+            _post = new Post();
+            _binder.Bind(_form, _post);
+        };
+
+        It should_create_two_root_posts = () => _post.Comments.Count.ShouldEqual(2);
+        It should_have_one_reply_to_the_first_comment = () => _post.Comments.GetCommentByAuthor("Tom").Comments.Count.ShouldEqual(1);
+        It should_have_one_reply_to_the_first_comments_reply = () => _post.Comments.GetCommentByAuthor("Tom").Comments[0].Comments.Count.ShouldEqual(1);
+        It should_have_one_reply_to_the_second_comment = () => _post.Comments.GetCommentByAuthor("Sam").Comments.Count.ShouldEqual(1);
+
+
+        static Binder _binder;
+        static PostWithOptionsForm _form;
+        static Post _post;
     }
 }
