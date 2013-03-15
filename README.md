@@ -70,6 +70,79 @@ var binda = new Binder();
 binda.AddRegistration(typeof(PersonControl), "FirstName");
 binda.Bind(myObject, myForm);
 ```
+
+## Binding to a TreeView
+
+TreeView binding expects your source to have an IEnumerable<T> property with a name that matches a TreeView control on your form.
+Suppose you have a model and a form like so:
+```c#
+public class Post
+{
+    public string Title { get; set; }
+    public string Author { get; set; }
+    public List<Comment> Comments { get; set; }
+}
+
+public class Comment
+{
+    public string Author { get; set; }
+    public string Body { get; set; }
+    public List<Comment> Comments { get; set; }
+    public override string ToString()
+    {
+        return string.Format("{0}: {1}", Author, Body);
+    }
+}
+
+partial class MyForm
+{
+  //...ommited
+  private void InitializeComponent()
+        {
+            this.Comments = new System.Windows.Forms.TreeView();
+            this.Comments.Name = "Comments";
+            this.Controls.Add(this.Comments);            
+        }
+  internal System.Windows.Forms.TreeView Comments;
+  //...ommited
+}
+```
+
+When you attempt to bind the `Post` model to the form it will find a matching `TreeView` and `IEnumerable<T>` based on name. It will then create a `TreeNode` for each `T` with the `Text` set to `T.ToString()` and `Tag` set to `T`. It will also look to see if `T` has an `IEnumerable<T>` property by the same name. If it does it will create child `TreeNodes` for each of those recursively.
+
+Using our example model and form:
+
+```c#
+var post = new Post();
+var comment1 = new Comment("Tom", "I love this post!");
+var replyToComment1 = new Comment("Jim", "Tom, I know right!");
+replyToComment1.Comments.Add(new Comment("John", "You guys are easily amused."));
+comment1.Comments.Add(replyToComment1);
+var comment2 = new Comment("Sam", "This post is lol.");
+comment2.Comments.Add(new Comment("Amy", "Sam your face is lol!"));
+post.Comments.AddRange(new[] { comment1, comment2 });
+
+var binda = new Binder();
+binda.Bind(post, myForm);
+```
+
+Your TreeView will look like 
+
+    TreeView.Nodes
+                 |
+                 TreeNode {"Tom: I love this post!"}
+                        |
+                        TreeNode {"Jim: Tom, I know right!"}
+                               |
+                               TreeNode {"John: You guys are easily amused."}
+                 TreeNode {"Sam: This post is lol."}
+                        |
+                        TreeNode {"Amy: Sam your face is lol!"}
+
+Binda also conveniently sets the `Tag` property of each `TreeNode` to the `Comment` it represents.
+
+When reverse binding the form to the model it will use the `Tag` property of each `TreeNode` to recreate the model.
+
 # How do I run the tests?
 
 I used [MSpec](https://github.com/machine/machine.specifications) for testing and the [Test Runner](http://www.jetbrains.com/resharper/features/unit_testing.html) in [Resharper](http://www.jetbrains.com/resharper/). If you don't have Resharper I recommend you get it. If that's not an option you can still run the tests manually via the MSpec command-line runner like this:
