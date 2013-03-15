@@ -57,7 +57,7 @@ All contributions to the project are welcome. If you have a great idea how to ma
 
 # License
 
-Copyright (c) 2012, [Michael Minton](http://michaelminton.com)
+Copyright (c) 2012-2013, [Michael Minton](http://michaelminton.com)
 
 Binda is provided under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0). Commercial use requires attribution.
 
