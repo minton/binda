@@ -53,7 +53,7 @@ namespace BindaTests
             replyToComment1.Comments.Add(new Comment("John", "You guys are easily amused."));
             comment1.Comments.Add(replyToComment1);
             var comment2 = new Comment("Sam", "This post is lol.");
-            comment2.Comments.Add(new Comment("Amy", "Sam you're face is lol!"));
+            comment2.Comments.Add(new Comment("Amy", "Sam your face is lol!"));
             return new[] { comment1, comment2 };
         }
     }

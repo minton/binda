@@ -7,7 +7,6 @@ using Machine.Specifications;
 using Binda;
 using Test;
 using Binder = Binda.Binder;
-using System.Linq;
 
 namespace BindaTests
 {
@@ -366,7 +365,6 @@ namespace BindaTests
         It should_have_one_reply_to_the_first_comments_reply = () => _allNodes.GetNodeCommentByAuthor("Tom").Nodes[0].Nodes.Count.ShouldEqual(1);
         It should_have_one_reply_to_the_second_comment = () => _allNodes.GetNodeCommentByAuthor("Sam").Nodes.Count.ShouldEqual(1);
 
-
         static Binder _binder;
         static PostWithOptionsForm _form;
         static Post _post;
@@ -396,7 +394,6 @@ namespace BindaTests
         It should_have_one_reply_to_the_first_comment = () => _post.Comments.GetCommentByAuthor("Tom").Comments.Count.ShouldEqual(1);
         It should_have_one_reply_to_the_first_comments_reply = () => _post.Comments.GetCommentByAuthor("Tom").Comments[0].Comments.Count.ShouldEqual(1);
         It should_have_one_reply_to_the_second_comment = () => _post.Comments.GetCommentByAuthor("Sam").Comments.Count.ShouldEqual(1);
-
 
         static Binder _binder;
         static PostWithOptionsForm _form;
