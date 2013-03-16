@@ -1,0 +1,1 @@
+"src\Binda\.nuget\NuGet.exe" push "NuGet\Binda.0.0.17.0.nupkg" %NUGET_API%

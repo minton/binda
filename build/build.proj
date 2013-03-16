@@ -11,10 +11,19 @@
   </PropertyGroup>
  
   <UsingTask AssemblyFile="$(MSBuildExtensions)" TaskName="MSBuild.Community.Tasks.XmlUpdate" />
+  <UsingTask AssemblyFile="$(MSBuildExtensions)" TaskName="MSBuild.Community.Tasks.FileUpdate" />
  
   <Target Name="default" DependsOnTargets="Compile; Spec; Package" />
  
+
+
   <Target Name="Compile">
+
+    <ItemGroup>
+      <OldBinaries Include="$(OutputDir)\*.dll" />
+    </ItemGroup>
+    <Delete Files="@(OldBinaries)" />
+
     <Message Importance="high" Text="Building Binda in $(Configuration) configuration"/>
     <MSBuild Projects="$(SolutionFile)" Properties="Platform=$(Platform);Configuration=$(Configuration)"  />
   </Target>
@@ -31,6 +40,12 @@
     <ItemGroup>
       <MainBinaries Include="$(OutputDir)\*.*" />
     </ItemGroup>
+
+    <ItemGroup>
+      <OldPackages Include="$(PackageDir)\*.nupkg" />
+    </ItemGroup>
+
+    <Delete Files="@(OldPackages)" />
  
     <!-- First copy the nuspec template files to the package dir -->
     <Copy SourceFiles="$(BaseDir)\Binda.nuspec" DestinationFolder="$(PackageDir)temp\Binda" />
@@ -52,5 +67,11 @@
  
     <Exec WorkingDirectory="$(PackageDir)" 
           Command="$(BaseDir)src\Binda\.nuget\nuget.exe pack $(PackageDir)temp\Binda\Binda.nuspec" />
+
+    <FileUpdate Files="$(BaseDir)publish.bat"
+                Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)\.nupkg"
+                ReplacementText="%(AsmInfo.Version).nupkg"
+                Encoding="Windows-1252" />
+
   </Target>
 </Project>

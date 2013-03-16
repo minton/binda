@@ -29,4 +29,5 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 packages/
 NuGet/
-
+.nuget/NuGet.Config
+src/Binda/.nuget/NuGet.Config
