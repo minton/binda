@@ -55,9 +55,9 @@ Binda began as a quick spike by [Michael Minton](http://michaelminton.com) to bi
 
 All contributions to the project are welcome. If you have a great idea how to make Binda even better submit a [Pull Request](https://help.github.com/articles/using-pull-requests).
 
-# License
+# Karma
 
-Copyright (c) 2012-2013, [Michael Minton](http://michaelminton.com)
+[![endorse](https://api.coderwall.com/minton/endorsecount.png)](https://coderwall.com/minton) Do it!
 
 Binda is provided under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0). Commercial use requires attribution.
 
