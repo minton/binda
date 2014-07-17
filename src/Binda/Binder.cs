@@ -10,6 +10,8 @@ namespace Binda
     public class Binder
     {
         readonly Dictionary<Type, BindaStrategy> _strategies;
+        readonly List<ControlPrefix> _controlPrefixes;
+        ControlPrefix _controlPrefix;
 
         public Binder()
         {
@@ -56,6 +58,11 @@ namespace Binda
             _strategies[controlType] = strategy;
         }
 
+        public void AddControlPrefix(ControlPrefix controlPrefix)
+        {
+            _controlPrefix = controlPrefix;
+        }
+
         /// <summary>
         /// Binds an object to a Form via property names.
         /// </summary>
@@ -79,9 +86,10 @@ namespace Binda
             var controls = destination.GetAllControlsRecursive<Control>().Where(c => _strategies.ContainsKey(c.GetType())).ToList();
             foreach (var control in controls)
             {
-                var alias = aliases.FirstOrDefault(x => x.DestinationAlias.ToUpper() == control.Name.ToUpper());
-                var controlName = alias == null ? control.Name : alias.Property;
-                var sourceProperty = sourceProperties.FirstOrDefault(x => x.Name.ToUpper() == controlName.ToUpper());
+                var controlName = _controlPrefix == null? control.Name : _controlPrefix.RemovePrefix(control.Name);
+                var alias = aliases.FirstOrDefault(x => string.Equals(x.DestinationAlias, controlName, StringComparison.OrdinalIgnoreCase));
+                var finalControlName = alias == null ? controlName : alias.Property;
+                var sourceProperty = sourceProperties.FirstOrDefault(x => string.Equals(x.Name, finalControlName, StringComparison.OrdinalIgnoreCase));
                 if (sourceProperty == null) continue;
                 var strategy = _strategies[control.GetType()];
                 if (source.GetType().GetInterfaces().Any(x => x == typeof(INotifyPropertyChanged)))
@@ -114,11 +122,11 @@ namespace Binda
             foreach (var property in properties)
             {
                 var propertyName = property.Name;
-                var alias = aliases.FirstOrDefault(x => x.Property.ToUpper() == property.Name.ToUpper());
+                var alias = aliases.FirstOrDefault(x => string.Equals(x.Property, property.Name, StringComparison.OrdinalIgnoreCase));
                 if (alias != null)
                     propertyName = alias.DestinationAlias;
 
-                var control = controls.FirstOrDefault(x => x.Name.ToUpper() == propertyName.ToUpper());
+                var control = controls.FirstOrDefault(x => string.Equals(_controlPrefix == null ? x.Name : _controlPrefix.RemovePrefix(x.Name), propertyName, StringComparison.OrdinalIgnoreCase));
                 if (control == null) continue;
 
                 var strategy = _strategies[control.GetType()];

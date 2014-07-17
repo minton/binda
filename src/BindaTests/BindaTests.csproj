@@ -129,6 +129,12 @@
     <Compile Include="NeededObjects\PostWithOptionsForm.Designer.cs">
       <DependentUpon>PostWithOptionsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NeededObjects\SampleFormWithControlPrefix.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NeededObjects\SampleFormWithControlPrefix.Designer.cs">
+      <DependentUpon>SampleFormWithControlPrefix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestVariables.cs" />
   </ItemGroup>
@@ -141,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NeededObjects\PostWithOptionsForm.resx">
       <DependentUpon>PostWithOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NeededObjects\SampleFormWithControlPrefix.resx">
+      <DependentUpon>SampleFormWithControlPrefix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
