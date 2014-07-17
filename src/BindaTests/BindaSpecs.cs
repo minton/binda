@@ -399,4 +399,54 @@ namespace BindaTests
         static PostWithOptionsForm _form;
         static Post _post;
     }
+
+    [Subject(typeof (Binder))]
+    public class When_binding_an_object_to_a_form_using_control_prefixes
+    {
+        Establish context = () =>
+        {
+            _binder = new Binder();
+            _binder.AddControlPrefix(new HungarianNotationControlPrefix());
+            _form = new SampleFormWithControlPrefix();
+            _post = NeededObjectsFactory.CreatePost();
+        };
+
+        Because of = () => _binder.Bind(_post, _form);
+
+        It should_take_matching_properties_from_the_object_and_set_them_on_the_form = () =>
+        {
+            _form.txtTitle.Text.ShouldEqual(TestVariables.Title);
+            _form.txtAuthor.Text.ShouldEqual(TestVariables.Author);
+            _form.dtpDate.Value.ShouldEqual(TestVariables.Posted);
+            _form.txtBody.Text.ShouldEqual(TestVariables.Body);
+        };
+        static Binder _binder;
+        static SampleFormWithControlPrefix _form;
+        static Post _post;
+    }
+
+    [Subject(typeof(Binder))]
+    public class When_binding_a_form_using_control_prefixes_to_an_object
+    {
+        Establish context = () =>
+        {
+            _binder = new Binder();
+            _binder.AddControlPrefix(new HungarianNotationControlPrefix());
+            _form = NeededObjectsFactory.CreateFormWithControlPrefix();
+            _post = new Post();
+        };
+
+        Because of = () => _binder.Bind(_form, _post);
+
+        It should_take_matching_properties_from_the_form_and_set_them_on_the_object = () =>
+        {
+            _post.Title.ShouldEqual(TestVariables.Title);
+            _post.Author.ShouldEqual(TestVariables.Author);
+            _post.Date.ShouldEqual(TestVariables.Posted);
+            _post.Body.ShouldEqual(TestVariables.Body);
+        };
+        static Binder _binder;
+        static SampleFormWithControlPrefix _form;
+        static Post _post;
+    }
 }

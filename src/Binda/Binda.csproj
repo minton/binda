@@ -92,9 +92,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindaAlias.cs" />
+    <Compile Include="ControlPrefix.cs" />
     <Compile Include="DefaultBindaStrategy.cs" />
     <Compile Include="BindaStrategy.cs" />
     <Compile Include="Binder.cs" />
+    <Compile Include="HungarianNotationControlPrefix.cs" />
     <Compile Include="ListControlBindaStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TreeViewBindaStrategy.cs" />

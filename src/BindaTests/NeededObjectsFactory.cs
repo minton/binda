@@ -46,6 +46,17 @@ namespace BindaTests
              };
         }
 
+        public static SampleFormWithControlPrefix CreateFormWithControlPrefix()
+        {
+            return new SampleFormWithControlPrefix
+            {
+                txtTitle = { Text = TestVariables.Title },
+                txtAuthor = { Text = TestVariables.Author },
+                dtpDate = { Value = TestVariables.Posted },
+                txtBody = { Text = TestVariables.Body }
+            };
+        }
+
         public static IEnumerable<Comment> GenerateComments()
         {
             var comment1 = new Comment("Tom", "I love this post!");
