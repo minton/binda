@@ -46,13 +46,13 @@ namespace BindaTests
              };
         }
 
-        public static SampleFormWithControlPrefix CreateFormWithControlPrefix()
+        public static MySamplePrefixForm CreatePrefixForm()
         {
-            return new SampleFormWithControlPrefix
+            return new MySamplePrefixForm
             {
                 txtTitle = { Text = TestVariables.Title },
                 txtAuthor = { Text = TestVariables.Author },
-                dtpDate = { Value = TestVariables.Posted },
+                dpDate = { Value = TestVariables.Posted },
                 txtBody = { Text = TestVariables.Body }
             };
         }

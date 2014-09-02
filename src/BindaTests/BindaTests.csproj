@@ -106,50 +106,61 @@
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindaSpecs.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="NeededObjectsFactory.cs" />
-    <Compile Include="NeededObjects\Comment.cs" />
-    <Compile Include="NeededObjects\FluxCapacitor.cs">
+    <Compile Include="Helpers\PostWithOptionsPrefixForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Helpers\PostWithOptionsPrefixForm.Designer.cs">
+      <DependentUpon>PostWithOptionsPrefixForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Specs\BindingFormToObjectSpecs.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Specs\BindingObjectToFormSpecs.cs" />
+    <Compile Include="Helpers\NeededObjectsFactory.cs" />
+    <Compile Include="Helpers\Comment.cs" />
+    <Compile Include="Helpers\FluxCapacitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="NeededObjects\FluxCapacitor.Designer.cs">
+    <Compile Include="Helpers\FluxCapacitor.Designer.cs">
       <DependentUpon>FluxCapacitor.cs</DependentUpon>
     </Compile>
-    <Compile Include="NeededObjects\MySampleForm.cs">
+    <Compile Include="Helpers\MySamplePrefixForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NeededObjects\MySampleForm.Designer.cs">
+    <Compile Include="Helpers\MySamplePrefixForm.Designer.cs">
+      <DependentUpon>MySamplePrefixForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\MySampleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Helpers\MySampleForm.Designer.cs">
       <DependentUpon>MySampleForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NeededObjects\Post.cs" />
-    <Compile Include="NeededObjects\PostWithOptionsForm.cs">
+    <Compile Include="Helpers\Post.cs" />
+    <Compile Include="Helpers\PostWithOptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NeededObjects\PostWithOptionsForm.Designer.cs">
+    <Compile Include="Helpers\PostWithOptionsForm.Designer.cs">
       <DependentUpon>PostWithOptionsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NeededObjects\SampleFormWithControlPrefix.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NeededObjects\SampleFormWithControlPrefix.Designer.cs">
-      <DependentUpon>SampleFormWithControlPrefix.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestVariables.cs" />
+    <Compile Include="Helpers\TestVariables.cs" />
+    <Compile Include="Specs\CollectingBindingSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="NeededObjects\FluxCapacitor.resx">
+    <EmbeddedResource Include="Helpers\FluxCapacitor.resx">
       <DependentUpon>FluxCapacitor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NeededObjects\MySampleForm.resx">
+    <EmbeddedResource Include="Helpers\MySamplePrefixForm.resx">
+      <DependentUpon>MySamplePrefixForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Helpers\MySampleForm.resx">
       <DependentUpon>MySampleForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NeededObjects\PostWithOptionsForm.resx">
-      <DependentUpon>PostWithOptionsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Helpers\PostWithOptionsPrefixForm.resx">
+      <DependentUpon>PostWithOptionsPrefixForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NeededObjects\SampleFormWithControlPrefix.resx">
-      <DependentUpon>SampleFormWithControlPrefix.cs</DependentUpon>
+    <EmbeddedResource Include="Helpers\PostWithOptionsForm.resx">
+      <DependentUpon>PostWithOptionsForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
