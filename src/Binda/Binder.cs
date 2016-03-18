@@ -84,6 +84,28 @@ namespace Binda
             InternalBindToControl(source, destination, aliases);
         }
 
+        /// <summary>
+        /// Binds a UserControl to an object via property names including optional aliases.
+        /// </summary>
+        /// <param name="source">A Windows UserControl.</param>
+        /// <param name="destination">Any POCO.</param>
+        /// <param name="aliases">A list of BindaAliases (optional).</param>
+        public void Bind(UserControl source, object destination, IList<BindaAlias> aliases = null)
+        {
+            InternalBindToObject(source, destination, aliases);
+        }
+
+        /// <summary>
+        /// Binds a Form to an object via property names including optional aliases.
+        /// </summary>
+        /// <param name="source">A Windows Form.</param>
+        /// <param name="destination">Any POCO.</param>
+        /// <param name="aliases">A list of BindaAlias (optional).</param>
+        public void Bind(Form source, object destination, IList<BindaAlias> aliases = null)
+        {
+            InternalBindToObject(source, destination, aliases);
+        }
+
         private void InternalBindToControl(object source, ContainerControl destination, IList<BindaAlias> aliases)
         {
             if (source == null) throw new ArgumentNullException("source");
@@ -107,25 +129,12 @@ namespace Binda
             }
         }
 
-        /// <summary>
-        /// Binds a Form to an object via property names.
-        /// </summary>
-        /// <param name="source">A Windows Form.</param>
-        /// <param name="destination">Any POCO.</param>
-        public void Bind(Form source, object destination)
-        {
-            Bind(source, destination, Enumerable.Empty<BindaAlias>().ToList());
-        }
-        /// <summary>
-        /// Binds a Form to an object via property names including aliases.
-        /// </summary>
-        /// <param name="source">A Windows Form.</param>
-        /// <param name="destination">Any POCO.</param>
-        /// <param name="aliases">A list of BindaAlias.</param>
-        public void Bind(Form source, object destination, IList<BindaAlias> aliases)
+        private void InternalBindToObject(ContainerControl source, object destination, IList<BindaAlias> aliases)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (destination == null) throw new ArgumentNullException("destination");
+            aliases = aliases ?? Enumerable.Empty<BindaAlias>().ToList();
+
             var properties = destination.GetType().GetProperties().Where(property => property.CanWrite);
             var controls = source.GetAllControlsRecursive<Control>().Where(c => _strategies.ContainsKey(c.GetType())).ToList();
             foreach (var property in properties)
