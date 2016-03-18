@@ -64,29 +64,37 @@ namespace Binda
         }
 
         /// <summary>
-        /// Binds an object to a Form via property names.
+        /// Binds an object to a UserControl via property names including optional aliases.
         /// </summary>
         /// <param name="source">Any POCO.</param>
-        /// <param name="destination">A Windows Form</param>
-        public void Bind(object source, Form destination)
+        /// <param name="destination">A Windows UserControl</param>
+        /// <param name="aliases">A list of BindaAliases (optional).</param>
+        public void Bind(object source, UserControl destination, IList<BindaAlias> aliases = null)
         {
-            Bind(source, destination, Enumerable.Empty<BindaAlias>().ToList());
+            InternalBindToControl(source, destination, aliases);
         }
         /// <summary>
-        /// Binds an object to a Form via property names including aliases.
+        /// Binds an object to a Form via property names including optional aliases.
         /// </summary>
         /// <param name="source">Any POCO.</param>
         /// <param name="destination">A Windows Form.</param>
-        /// <param name="aliases">A list of BindaAlias.</param>
-        public void Bind(object source, Form destination, IList<BindaAlias> aliases)
+        /// <param name="aliases">A list of BindaAliases (optional).</param>
+        public void Bind(object source, Form destination, IList<BindaAlias> aliases = null)
+        {
+            InternalBindToControl(source, destination, aliases);
+        }
+
+        private void InternalBindToControl(object source, ContainerControl destination, IList<BindaAlias> aliases)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (destination == null) throw new ArgumentNullException("destination");
+            aliases = aliases ?? Enumerable.Empty<BindaAlias>().ToList();
+
             var sourceProperties = source.GetType().GetProperties();
             var controls = destination.GetAllControlsRecursive<Control>().Where(c => _strategies.ContainsKey(c.GetType())).ToList();
             foreach (var control in controls)
             {
-                var controlName = _controlPrefix == null? control.Name : _controlPrefix.RemovePrefix(control.Name);
+                var controlName = _controlPrefix == null ? control.Name : _controlPrefix.RemovePrefix(control.Name);
                 var alias = aliases.FirstOrDefault(x => string.Equals(x.DestinationAlias, controlName, StringComparison.OrdinalIgnoreCase));
                 var finalControlName = alias == null ? controlName : alias.Property;
                 var sourceProperty = sourceProperties.FirstOrDefault(x => string.Equals(x.Name, finalControlName, StringComparison.OrdinalIgnoreCase));
@@ -98,6 +106,7 @@ namespace Binda
                     strategy.SetControlValue(control, source, sourceProperty.Name);
             }
         }
+
         /// <summary>
         /// Binds a Form to an object via property names.
         /// </summary>
