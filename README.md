@@ -1,5 +1,6 @@
 #Binda
-[![Downloads](https://img.shields.io/nuget/dt/Binda.svg?style=flat-square)](http://www.nuget.org/packages/Binda/)
+
+![binda](https://img.shields.io/nuget/v/Binda.svg)
 
 Simple Data Binding for WinForms. It provides a easy way to get data from any [POCO](http://en.wikipedia.org/wiki/Plain_Old_CLR_Object) into a `Form` and back.
 
