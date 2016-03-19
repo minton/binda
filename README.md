@@ -37,10 +37,8 @@ Check out the [Wiki](https://github.com/minton/Binda/wiki#examples) for more exa
 
 # How do I run the tests?
 
-I used [MSpec](https://github.com/machine/machine.specifications) for testing and the [Test Runner](http://www.jetbrains.com/resharper/features/unit_testing.html) in [Resharper](http://www.jetbrains.com/resharper/). If you don't have Resharper I recommend you get it. If that's not an option you can still run the tests manually via the MSpec command-line runner like this:
-```bash
-mspec.exe BindaTests.dll
-```
+I used [NUnit](http://www.nunit.org/) for testing and the [Test Runner](http://www.jetbrains.com/resharper/features/unit_testing.html) in [Resharper](http://www.jetbrains.com/resharper/). If you don't have Resharper I recommend you get it. If that's not an option you can still run the tests manually via the [NUnit Console Runner](https://github.com/nunit/docs/wiki/Console-Runner).
+
 # Have an issue?
 
 Submit an [issue](http://github.com/minton/Binda/issues) directly on GitHub and we'll take a look.
