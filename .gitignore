@@ -32,3 +32,6 @@ NuGet/
 .nuget/NuGet.Config
 src/Binda/.nuget/NuGet.Config
 *.ncrunchproject
+.fake/
+tools/FAKE/
+packaging/*

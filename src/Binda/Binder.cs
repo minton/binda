@@ -26,17 +26,6 @@ namespace Binda
                                   {typeof(TreeView), new TreeViewBindaStrategy()}
                               };
         }
-        /// <summary>
-        /// Add a new BindaRegistration to the Binder.
-        /// </summary>
-        /// <param name="control">The type of the custom control.</param>
-        /// <param name="property">The property used to get/set the value on the control.</param>
-        /// <param name="type">The data type of the property.</param>
-        [Obsolete("Use AddRegistration(Type, string)")]
-        public void AddRegistration(Type control, string property, Type type)
-        {
-            AddRegistration(control, property);
-        }
 
         /// <summary>
         /// Add a new Default Binda Strategy for a control type
