@@ -51,16 +51,9 @@ A lot of developers, myself included, are still actively working with legacy cod
 
 # Credit
 
-Binda began as a quick spike by [Michael Minton](http://michaelminton.com) to bind POCO to WinForms and has since evolved into something useful thanks to the contributions from [Will Green](http://hotgazpacho.org/).
+Binda began as a quick spike by [Michael Minton](http://michaelminton.com) to bind POCO to WinForms and has since evolved into something useful thanks to the contributions from [Will Green](http://hotgazpacho.org/) and [@brycekbargar](https://github.com/brycekbargar).
 
 # How to contribute?
 
 All contributions to the project are welcome. If you have a great idea how to make Binda even better submit a [Pull Request](https://help.github.com/articles/using-pull-requests).
 
-# Karma
-
-[![endorse](https://api.coderwall.com/minton/endorsecount.png)](https://coderwall.com/minton) Do it!
-
-Binda is provided under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0). Commercial use requires attribution.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
