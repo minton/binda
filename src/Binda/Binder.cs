@@ -124,7 +124,7 @@ namespace Binda
                 var finalControlName = alias == null ? controlName : alias.Property;
                 var sourceProperty = sourceProperties.FirstOrDefault(x => string.Equals(x.Name, finalControlName, StringComparison.OrdinalIgnoreCase));
                 if (sourceProperty == null) continue;
-                var strategy = _typeStrategies[control.GetType()];
+                var strategy = GetStrategyFor(control);
                 if (source.GetType().GetInterfaces().Any(x => x == typeof(INotifyPropertyChanged)))
                     strategy.BindControl(control, source, sourceProperty.Name);
                 else
@@ -150,10 +150,18 @@ namespace Binda
                 var control = controls.FirstOrDefault(x => string.Equals(_controlPrefix == null ? x.Name : _controlPrefix.RemovePrefix(x.Name), propertyName, StringComparison.OrdinalIgnoreCase));
                 if (control == null) continue;
 
-                var strategy = _typeStrategies[control.GetType()];
+                var strategy = GetStrategyFor(control);
                 var value = strategy.GetControlValue(control);
                 property.SetValue(destination, value, null);
             }
+        }
+
+        private BindaStrategy GetStrategyFor(Control control)
+        {
+            return
+                _controlStrategies.ContainsKey(control)
+                    ? _controlStrategies[control]
+                    : _typeStrategies[control.GetType()];
         }
     }
 }
