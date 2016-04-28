@@ -86,6 +86,16 @@ namespace Binda
         {
             InternalBindToControl(source, destination, aliases);
         }
+        /// <summary>
+        /// Binds an object to a Panel via property names including optional aliases.
+        /// </summary>
+        /// <param name="source">Any POCO.</param>
+        /// <param name="destination">A Windows Panel.</param>
+        /// <param name="aliases">A list of BindaAliases (optional).</param>
+        public void Bind(object source, Panel destination, IList<BindaAlias> aliases = null)
+        {
+            InternalBindToControl(source, destination, aliases);
+        }
 
         /// <summary>
         /// Binds a UserControl to an object via property names including optional aliases.
@@ -109,7 +119,19 @@ namespace Binda
             InternalBindToObject(source, destination, aliases);
         }
 
-        private void InternalBindToControl(object source, ContainerControl destination, IList<BindaAlias> aliases)
+        /// <summary>
+        /// Binds a Panel to an object via property names including optional aliases.
+        /// </summary>
+        /// <param name="source">A Windows Panel.</param>
+        /// <param name="destination">Any POCO.</param>
+        /// <param name="aliases">A list of BindaAlias (optional).</param>
+        public void Bind(Panel source, object destination, IList<BindaAlias> aliases = null)
+        {
+            InternalBindToObject(source, destination, aliases);
+        }
+
+
+        private void InternalBindToControl(object source, Control destination, IList<BindaAlias> aliases)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (destination == null) throw new ArgumentNullException("destination");
@@ -132,7 +154,7 @@ namespace Binda
             }
         }
 
-        private void InternalBindToObject(ContainerControl source, object destination, IList<BindaAlias> aliases)
+        private void InternalBindToObject(Control source, object destination, IList<BindaAlias> aliases)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (destination == null) throw new ArgumentNullException("destination");
@@ -164,7 +186,7 @@ namespace Binda
                     : _typeStrategies[control.GetType()];
         }
 
-        private IList<Control> GetControlsFor(ContainerControl control)
+        private IList<Control> GetControlsFor(Control control)
         {
             return
                 control
