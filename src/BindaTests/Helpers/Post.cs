@@ -20,6 +20,8 @@ namespace BindaTests.NeededObjects
         public PublishState PublishState { get; set; }
         public BindingList<PublishState> PublishStates { get; set; }
         public List<Comment> Comments { get; set; }
+        public int Category { get; set; }
+        public IList<KeyValuePair<int, string>> Categories { get; set; }
     }
 
     public class PublishState
