@@ -27,7 +27,7 @@ namespace Binda
             listControl.SelectedIndex = collection.IndexOf(value);
         }
 
-        static IList GetCollection(object source, string propertyName, object value)
+        protected IList GetCollection(object source, string propertyName, object value)
         {
             var collectionPropertyName = propertyName.Pluralize();
             var collectionProperty = source.GetType().GetProperty(collectionPropertyName);
