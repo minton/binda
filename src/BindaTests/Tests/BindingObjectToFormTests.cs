@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Binda;
+using BindaTests.Helpers;
 using BindaTests.NeededObjects;
 using NUnit.Framework;
 using Test;
 
-namespace BindaTests.Helpers
+namespace BindaTests.Tests
 {
     [TestFixture]
     public class BindingObjectToFormTests
