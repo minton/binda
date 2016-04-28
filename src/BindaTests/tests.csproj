@@ -101,6 +101,7 @@
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\TestBindaStrategy.cs" />
     <Compile Include="Tests\BindingFormToObjectTests.cs" />
     <Compile Include="Helpers\PostWithOptionsPrefixForm.cs">
       <SubType>Form</SubType>
