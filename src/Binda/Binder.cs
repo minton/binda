@@ -9,22 +9,26 @@ namespace Binda
 {
     public class Binder
     {
-        readonly Dictionary<Type, BindaStrategy> _strategies;
+        private readonly IDictionary<Type, BindaStrategy> _typeStrategies;
+        private readonly IDictionary<Control, BindaStrategy> _controlStrategies;
+
         readonly List<ControlPrefix> _controlPrefixes;
         ControlPrefix _controlPrefix;
 
         public Binder()
         {
-            _strategies = new Dictionary<Type, BindaStrategy>
-                              {
-                                  {typeof (TextBox), new DefaultBindaStrategy("Text")},
-                                  {typeof (CheckBox), new DefaultBindaStrategy("Checked")},
-                                  {typeof (RadioButton), new DefaultBindaStrategy("Checked")},
-                                  {typeof (DateTimePicker), new DefaultBindaStrategy("Value")},
-                                  {typeof (NumericUpDown), new DefaultBindaStrategy("Value")},
-                                  {typeof (ComboBox), new ListControlBindaStrategy()},
-                                  {typeof(TreeView), new TreeViewBindaStrategy()}
-                              };
+            _typeStrategies =
+                new Dictionary<Type, BindaStrategy>
+                {
+                    {typeof (TextBox), new DefaultBindaStrategy("Text")},
+                    {typeof (CheckBox), new DefaultBindaStrategy("Checked")},
+                    {typeof (RadioButton), new DefaultBindaStrategy("Checked")},
+                    {typeof (DateTimePicker), new DefaultBindaStrategy("Value")},
+                    {typeof (NumericUpDown), new DefaultBindaStrategy("Value")},
+                    {typeof (ComboBox), new ListControlBindaStrategy()},
+                    {typeof (TreeView), new TreeViewBindaStrategy()}
+                };
+            _controlStrategies = new Dictionary<Control, BindaStrategy>();
         }
 
         /// <summary>
@@ -44,7 +48,17 @@ namespace Binda
         /// <param name="strategy"></param>
         public void AddRegistration(Type controlType, BindaStrategy strategy)
         {
-            _strategies[controlType] = strategy;
+            _typeStrategies[controlType] = strategy;
+        }
+
+        /// <summary>
+        /// Add a Custom Binda Strategy for specific controls
+        /// </summary>
+        /// <param name="strategy"></param>
+        /// <param name="controls"></param>
+        public void AddRegistration(BindaStrategy strategy, params Control[] controls)
+        {
+            Array.ForEach(controls, x => _controlStrategies[x] = strategy);
         }
 
         public void AddControlPrefix(ControlPrefix controlPrefix)
@@ -102,7 +116,7 @@ namespace Binda
             aliases = aliases ?? Enumerable.Empty<BindaAlias>().ToList();
 
             var sourceProperties = source.GetType().GetProperties();
-            var controls = destination.GetAllControlsRecursive<Control>().Where(c => _strategies.ContainsKey(c.GetType())).ToList();
+            var controls = destination.GetAllControlsRecursive<Control>().Where(c => _typeStrategies.ContainsKey(c.GetType())).ToList();
             foreach (var control in controls)
             {
                 var controlName = _controlPrefix == null ? control.Name : _controlPrefix.RemovePrefix(control.Name);
@@ -110,7 +124,7 @@ namespace Binda
                 var finalControlName = alias == null ? controlName : alias.Property;
                 var sourceProperty = sourceProperties.FirstOrDefault(x => string.Equals(x.Name, finalControlName, StringComparison.OrdinalIgnoreCase));
                 if (sourceProperty == null) continue;
-                var strategy = _strategies[control.GetType()];
+                var strategy = _typeStrategies[control.GetType()];
                 if (source.GetType().GetInterfaces().Any(x => x == typeof(INotifyPropertyChanged)))
                     strategy.BindControl(control, source, sourceProperty.Name);
                 else
@@ -125,7 +139,7 @@ namespace Binda
             aliases = aliases ?? Enumerable.Empty<BindaAlias>().ToList();
 
             var properties = destination.GetType().GetProperties().Where(property => property.CanWrite);
-            var controls = source.GetAllControlsRecursive<Control>().Where(c => _strategies.ContainsKey(c.GetType())).ToList();
+            var controls = source.GetAllControlsRecursive<Control>().Where(c => _typeStrategies.ContainsKey(c.GetType())).ToList();
             foreach (var property in properties)
             {
                 var propertyName = property.Name;
@@ -136,7 +150,7 @@ namespace Binda
                 var control = controls.FirstOrDefault(x => string.Equals(_controlPrefix == null ? x.Name : _controlPrefix.RemovePrefix(x.Name), propertyName, StringComparison.OrdinalIgnoreCase));
                 if (control == null) continue;
 
-                var strategy = _strategies[control.GetType()];
+                var strategy = _typeStrategies[control.GetType()];
                 var value = strategy.GetControlValue(control);
                 property.SetValue(destination, value, null);
             }
