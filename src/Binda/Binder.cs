@@ -116,7 +116,7 @@ namespace Binda
             aliases = aliases ?? Enumerable.Empty<BindaAlias>().ToList();
 
             var sourceProperties = source.GetType().GetProperties();
-            var controls = destination.GetAllControlsRecursive<Control>().Where(c => _typeStrategies.ContainsKey(c.GetType())).ToList();
+            var controls = GetControlsFor(destination);
             foreach (var control in controls)
             {
                 var controlName = _controlPrefix == null ? control.Name : _controlPrefix.RemovePrefix(control.Name);
@@ -138,8 +138,8 @@ namespace Binda
             if (destination == null) throw new ArgumentNullException("destination");
             aliases = aliases ?? Enumerable.Empty<BindaAlias>().ToList();
 
+            var controls = GetControlsFor(source);
             var properties = destination.GetType().GetProperties().Where(property => property.CanWrite);
-            var controls = source.GetAllControlsRecursive<Control>().Where(c => _typeStrategies.ContainsKey(c.GetType())).ToList();
             foreach (var property in properties)
             {
                 var propertyName = property.Name;
@@ -162,6 +162,17 @@ namespace Binda
                 _controlStrategies.ContainsKey(control)
                     ? _controlStrategies[control]
                     : _typeStrategies[control.GetType()];
+        }
+
+        private IList<Control> GetControlsFor(ContainerControl control)
+        {
+            return
+                control
+                    .GetAllControlsRecursive<Control>()
+                    .Where(x =>
+                        _controlStrategies.ContainsKey(x) ||
+                        _typeStrategies.ContainsKey(x.GetType()))
+                    .ToList();
         }
     }
 }
