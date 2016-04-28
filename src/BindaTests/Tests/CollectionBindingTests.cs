@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Forms;
 using Binda;
 using BindaTests.NeededObjects;
 using NUnit.Framework;
@@ -24,6 +25,26 @@ namespace BindaTests.Tests
 
             Assert.That(form.PublishState.DataSource, Is.SameAs(post.PublishStates));
             Assert.That(form.PublishState.SelectedItem, Is.SameAs(post.PublishState));
+        }
+
+        [Test]
+        public void When_binding_an_object_to_a_form_with_a_property_and_a_key_value_pair_collection()
+        {
+            var binder = new Binder();
+            binder.AddControlPrefix(new HungarianNotationControlPrefix());
+
+            var post = NeededObjectsFactory.CreatePost();
+            post.Categories.Add(new KeyValuePair<int, string>(123, "Toast"));
+            post.Categories.Add(new KeyValuePair<int, string>(8915, "Waffles"));
+            post.Categories.Add(new KeyValuePair<int, string>(56123, "Pizza"));
+            post.Category = 56123;
+
+            var form = new PostWithOptionsPrefixForm();
+            binder.AddRegistration(new KeyValueListStrategy(), form.cboCategory);
+            binder.Bind(post, form);
+
+            Assert.That(form.cboCategory.DataSource, Is.SameAs(post.Categories));
+            Assert.That(form.cboCategory.SelectedValue, Is.EqualTo(post.Category));
         }
 
 

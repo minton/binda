@@ -44,6 +44,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.tvComments = new System.Windows.Forms.TreeView();
             this.fcPopularityRanking = new BindaTests.NeededObjects.FluxCapacitor();
+            this.cboCategory = new System.Windows.Forms.ComboBox();
+            this.lblCategory = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudHitCount)).BeginInit();
             this.SuspendLayout();
             // 
@@ -180,11 +182,31 @@
             this.fcPopularityRanking.Size = new System.Drawing.Size(260, 89);
             this.fcPopularityRanking.TabIndex = 20;
             // 
+            // cboCategory
+            // 
+            this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCategory.FormattingEnabled = true;
+            this.cboCategory.Location = new System.Drawing.Point(401, 105);
+            this.cboCategory.Name = "cboCategory";
+            this.cboCategory.Size = new System.Drawing.Size(198, 21);
+            this.cboCategory.TabIndex = 21;
+            // 
+            // lblCategory
+            // 
+            this.lblCategory.AutoSize = true;
+            this.lblCategory.Location = new System.Drawing.Point(401, 87);
+            this.lblCategory.Name = "lblCategory";
+            this.lblCategory.Size = new System.Drawing.Size(52, 13);
+            this.lblCategory.TabIndex = 22;
+            this.lblCategory.Text = "Category:";
+            // 
             // PostWithOptionsPrefixForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(852, 512);
+            this.Controls.Add(this.lblCategory);
+            this.Controls.Add(this.cboCategory);
             this.Controls.Add(this.fcPopularityRanking);
             this.Controls.Add(this.tvComments);
             this.Controls.Add(this.label6);
@@ -227,5 +249,7 @@
         public System.Windows.Forms.NumericUpDown nudHitCount;
         internal System.Windows.Forms.TreeView tvComments;
         internal FluxCapacitor fcPopularityRanking;
+        private System.Windows.Forms.Label lblCategory;
+        public System.Windows.Forms.ComboBox cboCategory;
     }
 }
