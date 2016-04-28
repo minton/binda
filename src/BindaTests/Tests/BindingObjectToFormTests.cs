@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using Binda;
+using BindaTests.Helpers;
 using BindaTests.NeededObjects;
 using NUnit.Framework;
 using Test;
 
-namespace BindaTests.Helpers
+namespace BindaTests.Tests
 {
     [TestFixture]
     public class BindingObjectToFormTests
@@ -45,7 +47,23 @@ namespace BindaTests.Helpers
             Assert.That(form.PopularityRanking.PopularityRanking, Is.EqualTo(TestVariables.PopularityRanking));
         }
 
+        [Test]
+        public void When_binding_an_object_to_a_form_with_custom_control_registrations()
+        {
+            var binder = new Binder();
+            var form = new MySampleForm();
+            var strategy = new TestBindaStrategy();
 
+            binder.AddRegistration(strategy, form.Title);
+            binder.AddRegistration(typeof (TextBox), "Text");
+
+            var post = NeededObjectsFactory.CreatePost();
+            binder.Bind(post, form);
+
+            Assert.IsTrue(strategy.WasSet);
+        }
+
+        [Test]
         public void When_binding_an_object_to_aform_withaliases()
         {
             var binder = new Binder();

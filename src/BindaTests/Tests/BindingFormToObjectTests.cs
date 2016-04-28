@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Binda;
+using BindaTests.Helpers;
 using BindaTests.NeededObjects;
 using NUnit.Framework;
 using Test;
@@ -43,6 +44,26 @@ namespace BindaTests.Tests
             Assert.That(post.Date, Is.EqualTo(TestVariables.Posted));
             Assert.That(post.Body, Is.EqualTo(TestVariables.Body));
             Assert.That(post.PopularityRanking, Is.EqualTo(TestVariables.PopularityRanking));
+        }
+
+
+        [Test]
+        public void When_binding_a_form_to_an_object_with_custom_control_registrations()
+        {
+            var binder = new Binder();
+            var form = NeededObjectsFactory.CreateForm();
+            var strategy = new TestBindaStrategy();
+
+            binder.AddRegistration(strategy, form.Title);
+            strategy.GetValue = "Good Title";
+
+            binder.AddRegistration(typeof (TextBox), "Text");
+            form.Title.Text = "Bad Title";
+
+            var post = new Post();
+            binder.Bind(form, post);
+
+            Assert.That(post.Title, Is.EqualTo(strategy.GetValue));
         }
 
         [Test]
