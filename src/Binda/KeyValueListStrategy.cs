@@ -16,12 +16,15 @@ namespace Binda
             }
             var value = valueProperty.GetValue(source, null);
 
-            // DataSource == null; will reset the Display/Value Members...
+            listControl.DataSource = null;
             listControl.DataSource = GetCollection(source, propertyName, value);
+            // DataSource == null; will reset the Display/Value Members...
             listControl.DisplayMember = "Value";
             listControl.ValueMember = "Key";
 
-            listControl.SelectedValue = value;
+            // NullValueException if we set SelectedValue to null. 
+            // By default it will be null since we reset the Datasource
+            if (value != null) { listControl.SelectedValue = value; }
         }
 
         public override object GetControlValue(Control control)
