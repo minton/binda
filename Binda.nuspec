@@ -12,15 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>@description@</description>
     <releaseNotes>@releaseNotes@</releaseNotes>
-    <copyright>Copyright Michael Minton 2012-2016</copyright>
-    <tags></tags>
-    <dependencies>
-      <group targetFramework="net45">
-      </group>      
-    </dependencies>
-    <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System" targetFramework="net45" />
-      <frameworkAssembly assemblyName="System.Net.Http" targetFramework="net45, netcore45" />
-    </frameworkAssemblies>
+    <copyright>Copyright Michael Minton 2012-2017</copyright>
+    <tags></tags>    
   </metadata>
 </package>
