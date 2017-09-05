@@ -49,7 +49,7 @@ A lot of developers, myself included, are still actively working with legacy cod
 
 # Credit
 
-Binda began as a quick spike by [Michael Minton](http://michaelminton.com) to bind POCO to WinForms and has since evolved into something useful thanks to the contributions from [Will Green](http://hotgazpacho.org/) and [bryce](https://github.com/brycekbargar).
+Binda began as a quick spike by [Michael Minton](https://twitter.com/minton) to bind POCO to WinForms and has since evolved into something useful thanks to the contributions from [Will Green](http://hotgazpacho.org/) and [bryce](https://github.com/brycekbargar).
 
 # How to contribute?
 
