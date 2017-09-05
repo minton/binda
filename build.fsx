@@ -116,11 +116,11 @@ Target "BuildAndTest" (fun _ ->
 )
 
 Target "CreatePackage" (fun _ ->
-    let net45Dir = packagingDir @@ "lib/net45/"
-    CleanDir net45Dir
+    let netDir = packagingDir @@ "lib/net45/"
+    CleanDir netDir
 
-    CopyFile net45Dir (releaseDir @@ "Binda.dll")
-    CopyFile net45Dir (releaseDir @@ "Inflector.dll")
+    CopyFile netDir (releaseDir @@ "Binda.dll")
+    CopyFile netDir (releaseDir @@ "Inflector.dll")
     
     let key = environVarOrFail "nugetkey"
     NuGet (fun p -> 
