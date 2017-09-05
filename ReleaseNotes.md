@@ -1,3 +1,8 @@
+## New in 0.1.2 (Released 2017/09/05)
+
+**Features**
+ - Allow null values for the KeyValueStrategy - #17 via @brycekbargar
+
 ## New in 0.1.1 (Released 2016/04/28)
 
 **Features**
