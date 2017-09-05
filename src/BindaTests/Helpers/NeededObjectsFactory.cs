@@ -18,7 +18,7 @@ namespace BindaTests
                     Location = TestVariables.Location,
                     PublishStates = new BindingList<PublishState>(),
                     Comments = new List<Comment>(),
-                    Categories = new List<KeyValuePair<int, string>>()
+                    Categories = new List<KeyValuePair<int?, string>>()
                 };
         }
 
