@@ -10,13 +10,13 @@ let authors = ["@minton"; "@hotgazpacho"; "@brycekbargar"]
 let projectName = "Binda"
 let projectDescription = "Smart WinForms Data Binding"
 
-let debugDir = __SOURCE_DIRECTORY__ + @"\src\Binda\bin\Debug\"
-let releaseDir = __SOURCE_DIRECTORY__ + @"\src\Binda\bin\Release\"
+let debugDir = __SOURCE_DIRECTORY__ + @"\src\binda\bin\Debug\"
+let releaseDir = __SOURCE_DIRECTORY__ + @"\src\binda\bin\Release\"
 //Hard coded paths since f# via FAKE always returns x86 ProgramFiles
 let nunit = __SOURCE_DIRECTORY__ + @"\src\packages\NUnit.ConsoleRunner.3.2.0\tools\nunit3-console.exe"
 let packages = __SOURCE_DIRECTORY__ + @"\src\packages"
 let version = getBuildParamOrDefault "ver" "0.0.1"
-let testAssemblies = !! (@"src\BindaTests\bin\Debug\BindaTests.dll")
+let testAssemblies = !! (@"src\binda.tests\bin\Debug\binda.tests.dll")
 let packagingRoot = "./packaging/"
 let packagingDir = packagingRoot @@ "binda"
 
