@@ -1,4 +1,7 @@
-#Binda
+# Binda
+
+**Noun**
+>  \ ˈbīn-dā- \
 
 [![binda](https://img.shields.io/nuget/v/Binda.svg)](https://www.nuget.org/packages/Binda/)
 
