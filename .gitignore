@@ -36,3 +36,5 @@ src/Binda/.nuget/NuGet.Config
 tools/FAKE/
 packaging/*
 src/.vs/
+src/Binda/.vs
+src/binda.tests/.vs
