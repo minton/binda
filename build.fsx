@@ -116,7 +116,7 @@ Target "BuildAndTest" (fun _ ->
 )
 
 Target "CreatePackage" (fun _ ->
-    let netDir = packagingDir @@ "lib/net45/"
+    let netDir = packagingDir @@ "lib/net481/"
     CleanDir netDir
 
     CopyFile netDir (releaseDir @@ "Binda.dll")
