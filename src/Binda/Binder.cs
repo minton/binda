@@ -67,69 +67,26 @@ namespace Binda
         }
 
         /// <summary>
-        /// Binds an object to a UserControl via property names including optional aliases.
+        /// Binds an object to a Control via property names including optional aliases.
         /// </summary>
         /// <param name="source">Any POCO.</param>
-        /// <param name="destination">A Windows UserControl</param>
+        /// <param name="destination">A Windows Forms Control</param>
         /// <param name="aliases">A list of BindaAliases (optional).</param>
-        public void Bind(object source, UserControl destination, IList<BindaAlias> aliases = null)
-        {
-            InternalBindToControl(source, destination, aliases);
-        }
-        /// <summary>
-        /// Binds an object to a Form via property names including optional aliases.
-        /// </summary>
-        /// <param name="source">Any POCO.</param>
-        /// <param name="destination">A Windows Form.</param>
-        /// <param name="aliases">A list of BindaAliases (optional).</param>
-        public void Bind(object source, Form destination, IList<BindaAlias> aliases = null)
-        {
-            InternalBindToControl(source, destination, aliases);
-        }
-        /// <summary>
-        /// Binds an object to a Panel via property names including optional aliases.
-        /// </summary>
-        /// <param name="source">Any POCO.</param>
-        /// <param name="destination">A Windows Panel.</param>
-        /// <param name="aliases">A list of BindaAliases (optional).</param>
-        public void Bind(object source, Panel destination, IList<BindaAlias> aliases = null)
+        public void Bind(object source, Control destination, IList<BindaAlias> aliases = null)
         {
             InternalBindToControl(source, destination, aliases);
         }
 
         /// <summary>
-        /// Binds a UserControl to an object via property names including optional aliases.
+        /// Binds a Control to an object via property names including optional aliases.
         /// </summary>
-        /// <param name="source">A Windows UserControl.</param>
+        /// <param name="source">A Windows Forms Control.</param>
         /// <param name="destination">Any POCO.</param>
         /// <param name="aliases">A list of BindaAliases (optional).</param>
-        public void Bind(UserControl source, object destination, IList<BindaAlias> aliases = null)
+        public void Bind(Control source, object destination, IList<BindaAlias> aliases = null)
         {
             InternalBindToObject(source, destination, aliases);
         }
-
-        /// <summary>
-        /// Binds a Form to an object via property names including optional aliases.
-        /// </summary>
-        /// <param name="source">A Windows Form.</param>
-        /// <param name="destination">Any POCO.</param>
-        /// <param name="aliases">A list of BindaAlias (optional).</param>
-        public void Bind(Form source, object destination, IList<BindaAlias> aliases = null)
-        {
-            InternalBindToObject(source, destination, aliases);
-        }
-
-        /// <summary>
-        /// Binds a Panel to an object via property names including optional aliases.
-        /// </summary>
-        /// <param name="source">A Windows Panel.</param>
-        /// <param name="destination">Any POCO.</param>
-        /// <param name="aliases">A list of BindaAlias (optional).</param>
-        public void Bind(Panel source, object destination, IList<BindaAlias> aliases = null)
-        {
-            InternalBindToObject(source, destination, aliases);
-        }
-
 
         private void InternalBindToControl(object source, Control destination, IList<BindaAlias> aliases)
         {
