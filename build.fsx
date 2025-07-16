@@ -6,7 +6,7 @@ open Fake.Testing.NUnit3
 open System
 open System.IO
 
-let authors = ["@minton"; "@hotgazpacho"; "@brycekbargar"]
+let authors = ["@minton"; "@hotgazpacho"; "@brycekbargar" ; "@brainbolt"]
 let projectName = "Binda"
 let projectDescription = "Smart WinForms Data Binding"
 
