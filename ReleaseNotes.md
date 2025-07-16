@@ -1,3 +1,8 @@
+## New in 0.1.3 (Released 2025/07/16)
+
+**Features**
+ - Enable binding to/from any System.Windows.Forms.Control - #20 by @brainbolt
+
 ## New in 0.1.2 (Released 2017/09/05)
 
 **Features**
@@ -7,7 +12,7 @@
 
 **Features**
  - Bind to and from Panel Controls - #15 via @brycekbargar
- - Add a strategy for `KeyBaluePair`s - #14 via @brycekbargar
+ - Add a strategy for `KeyValuePair`s - #14 via @brycekbargar
  - Allow registration of strategies per-control - #12 via @brycekbargar
  
 ## New in 0.1.0 (Released 2016/03/18)
